@@ -86,7 +86,7 @@ public class CsvDataExtractor {
 
     public void appendData(String value)
     {
-        int lineNumber = data.size() - 1;
+        int lineNumber = data.size();
         data.add(new ArrayList<>());
         data.get(lineNumber).add(value);
     }

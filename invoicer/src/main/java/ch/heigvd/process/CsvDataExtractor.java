@@ -78,17 +78,16 @@ public class CsvDataExtractor {
         data.get(lineNumber).add(columnNumber, value);
     }
 
-    public void appendData(int columnNumber, String value)
+    public void appendData(int lineNumber, String value)
     {
-        int lineNumber = data.size() - 1;
-        data.get(lineNumber).add(columnNumber, value);
+        data.add(lineNumber, new ArrayList<>());
+        data.get(lineNumber).add(value);
     }
 
     public void appendData(String value)
     {
         int lineNumber = data.size() - 1;
-        int columnNumber = data.get(0).size() - 1;
-        data.get(lineNumber).add(columnNumber, value);
+        data.add(new ArrayList<>());
     }
 
     public void appendToData(int lineNumber, int columnNumber, String value)

@@ -9,20 +9,24 @@ import picocli.CommandLine.Option;
     name = "modify",
     mixinStandardHelpOptions = true,
     version = "Invoicer 1.0",
-    description = "Modify a CSV file and create a new modified CSV file."
+    description = "Modify a CSV file and create a new modified CSV file.",
+    sortOptions = false,
+    sortSynopsis = false    
 )
+
 public class ModifyCommand implements Runnable {
 
-    @Option(names = {"-i", "--input"}, description = "Input CSV file path", required = true)
+    @Option(   
+        names = {"-i", "--input"},
+        description = "Input CSV file path",
+        required = true)
     private String inputFilePath;
 
-    @Option(names = {"-o", "--output"}, description = "Output modified CSV file path", required = true)
+    @Option(
+        names = {"-o", "--output"},
+        description = "Output modified CSV file path",
+        required = true)
     private String outputFilePath;
-
-
-
-
-
 
     @Option (
         names = {"-r", "--replace"},
@@ -33,10 +37,7 @@ public class ModifyCommand implements Runnable {
     private String replace;
 
     @Option (
-        names = {"-dr", "--delete-rows"},Raw
-Raw
-Raw
-Raw
+        names = {"-dr", "--delete-rows"},
         description = "Delete specific rows from the CSV file",
         required = false,
         paramLabel = "numRow or numRow-numRow",
@@ -76,13 +77,13 @@ Raw
             if (!IOhelper.csvExtension(inputFilePath)) {
                 throw new IllegalArgumentException("Input must be a .csv file: " + inputFilePath);
             }
-            IOhelper.inputFileCheck(inputFilePath, "input");
+            IOhelper.inputFileCheck(inputFilePath);
 
             // Validate output file
             if (!IOhelper.csvExtension(outputFilePath)) {
                 throw new IllegalArgumentException("Output must be a .csv file: " + outputFilePath);
             }
-            IOhelper.outputFileCheck(outputFilePath, "output");
+            IOhelper.outputFileCheck(outputFilePath);
             
             // Check if at least one modification option is provided
             if (replace == null && deleteRows == null && deleteColumns == null && add == null && sort == null) {
@@ -95,7 +96,7 @@ Raw
             /********************************************************************************************
             // TODO: gérer les conflits entre les options (ex: deleteRows et add)
             ********************************************************************************************/
-           
+
             // Perform modify operation
             if (replace != null) {
                 checkReplace(replace);

@@ -1,9 +1,9 @@
 package ch.heigvd.utils;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.io.IOException;
 
 
 public final class IOhelper {
@@ -66,4 +66,14 @@ public final class IOhelper {
             return 1;
         }
     }
+
+    public static boolean csvExtension(String filePath) {
+        return filePath != null && filePath.toLowerCase().endsWith(".csv");
+    }
+
+    public static boolean pdfExtension(String filePath) {
+        return filePath != null && filePath.toLowerCase().endsWith(".pdf");
+    }
+
+    
 }

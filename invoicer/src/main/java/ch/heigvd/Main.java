@@ -13,7 +13,7 @@ import picocli.CommandLine.Command;
     subcommands = {ModifyCommand.class, InvoiceCommand.class}
 )
 
-public class App implements Runnable
+public class Main implements Runnable
 {
 
     @Override
@@ -22,7 +22,7 @@ public class App implements Runnable
     }
 
     public static void main( String[] args ){
-    CommandLine cmd = new CommandLine(new App());
+    CommandLine cmd = new CommandLine(new Main());
     int exitCode = cmd.execute(args);
     System.exit(exitCode);
     }

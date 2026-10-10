@@ -102,4 +102,14 @@ public class CsvDataExtractor {
         String element = data.get(lineNumber).get(columnNumber) + value;
         data.get(lineNumber).set(columnNumber, element);
     }
+
+    public int linesNumber()
+    {
+        return data.size();
+    }
+
+    public int columnsNumber()
+    {
+        return data.get(0).size();
+    }
 }

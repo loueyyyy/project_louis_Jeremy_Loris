@@ -11,9 +11,17 @@ public class InvoiceProcess {
 
     public static void invoiceProcess(String inputFilePath, String outputFilePath) {
 
-        Reader reader = new FileReader(inputFilePath, StandardCharsets.UTF_8);
-        CsvDataExtractor extractor = new CsvDataExtractor();
+        try {
+            Reader reader = new FileReader(inputFilePath, StandardCharsets.UTF_8);
+            CsvDataExtractor extractor = new CsvDataExtractor();
 
-        reader.close();
+            extractor.extraction(reader);
+
+            reader.close();
+        }
+        catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
     }
 }

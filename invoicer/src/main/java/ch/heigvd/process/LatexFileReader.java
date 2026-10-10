@@ -86,7 +86,7 @@ public class LatexFileReader
 
     public void appendData(String value)
     {
-        int lineNumber = data.size() - 1;
+        int lineNumber = data.size();
         int columnNumber = data.get(0).size() - 1;
         data.get(lineNumber).add(columnNumber, value);
     }

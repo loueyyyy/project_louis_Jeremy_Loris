@@ -9,9 +9,7 @@ public class CsvDataExtractor {
 
     public CsvDataExtractor() {
 
-
         data = new ArrayList<>();
-
 
     }
 
@@ -56,8 +54,7 @@ public class CsvDataExtractor {
                     continue;
                 }
 
-                String element = data.get(lineNumber).get(elementNumber) + (char)character;
-                data.get(lineNumber).set(elementNumber, element);
+                appendToData(lineNumber, elementNumber, (char)character);
             }
         }
         catch (Exception e) {
@@ -65,5 +62,44 @@ public class CsvDataExtractor {
             System.exit(1);
         }
 
+    }
+
+    public String getData(int lineNumber, int columnNumber) {
+        return data.get(lineNumber).get(columnNumber);
+    }
+
+    public void setData(int lineNumber, int columnNumber, String value)
+    {
+        data.get(lineNumber).set(columnNumber, value);
+    }
+
+    public void appendData(int lineNumber, int columnNumber, String value)
+    {
+        data.get(lineNumber).add(columnNumber, value);
+    }
+
+    public void appendData(int columnNumber, String value)
+    {
+        int lineNumber = data.size() - 1;
+        data.get(lineNumber).add(columnNumber, value);
+    }
+
+    public void appendData(String value)
+    {
+        int lineNumber = data.size() - 1;
+        int columnNumber = data.get(0).size() - 1;
+        data.get(lineNumber).add(columnNumber, value);
+    }
+
+    public void appendToData(int lineNumber, int columnNumber, String value)
+    {
+        String element = data.get(lineNumber).get(columnNumber) + value;
+        data.get(lineNumber).set(columnNumber, element);
+    }
+
+    public void appendToData(int lineNumber, int columnNumber, char value)
+    {
+        String element = data.get(lineNumber).get(columnNumber) + value;
+        data.get(lineNumber).set(columnNumber, element);
     }
 }

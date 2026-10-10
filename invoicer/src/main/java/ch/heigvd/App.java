@@ -24,7 +24,7 @@ public class App
 //
 //            reader.close();
 
-            InvoiceProcess.invoiceProcess("./src/main/java/ch/heigvd/model/data_file.csv", )
+            InvoiceProcess.invoiceProcess("./src/main/java/ch/heigvd/io/data_file.csv", )
         }
         catch (IOException e) {
             System.err.println(e.getMessage());

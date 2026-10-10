@@ -1,4 +1,4 @@
-package ch.heigvd.io;
+package ch.heigvd.process;
 
 import java.io.Reader;
 import java.util.ArrayList;

@@ -12,9 +12,9 @@ public class App
 {
     public static void main( String[] args )
     {
-        ModifyProcess.deleteColumns(
+        ModifyProcess.sort(
                 "./src/main/java/ch/heigvd/io/data_file.csv",
                 "./src/main/java/ch/heigvd/io/new_data_file.csv",
-                "C E");
+                "nom");
     }
 }

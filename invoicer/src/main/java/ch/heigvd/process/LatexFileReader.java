@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class LatexFileReader
 {
-    ArrayList<ArrayList<String>> data;
+    ArrayList<String> data;
 
     public LatexFileReader() {
 
@@ -15,14 +15,9 @@ public class LatexFileReader
 
     public void printData() {
 
-        for(ArrayList<String> line : data){
-
-            for (String element : line){
-                System.out.print(element );
+            for (String line : data){
+                System.out.println(line);
             }
-
-            System.out.println();
-        }
     }
 
     public void read(Reader in) {
@@ -30,10 +25,8 @@ public class LatexFileReader
         try {
             int character;
             int lineNumber = 0;
-            int elementNumber = 0;
 
-            data.add(new ArrayList<>());
-            data.get(lineNumber).add("");
+            data.add("");
 
             while ((character = in.read()) != -1) {
 
@@ -42,19 +35,11 @@ public class LatexFileReader
 
                 if ((char) character == '\n') {
                     lineNumber++;
-                    data.add(new ArrayList<>());
-                    data.get(lineNumber).add("");
-                    elementNumber = 0;
+                    data.add("");
                     continue;
                 }
 
-                if (character == ' ') {
-                    elementNumber++;
-                    data.get(lineNumber).add("");
-                    continue;
-                }
-
-                appendToData(lineNumber, elementNumber, (char)character);
+                appendData(lineNumber, (char)character);
             }
         }
         catch (Exception e) {
@@ -64,43 +49,33 @@ public class LatexFileReader
 
     }
 
-    public String getData(int lineNumber, int columnNumber) {
-        return data.get(lineNumber).get(columnNumber);
+    public String getData(int lineNumber)
+    {
+        return data.get(lineNumber);
     }
 
-    public void setData(int lineNumber, int columnNumber, String value)
+    public void setData(int lineNumber, String value)
     {
-        data.get(lineNumber).set(columnNumber, value);
+        data.set(lineNumber, value);
     }
 
-    public void appendData(int lineNumber, int columnNumber, String value)
+    public void appendNewLine(int lineNumber, String value)
     {
-        data.get(lineNumber).add(columnNumber, value);
+        if (lineNumber < data.size())
+            data.add(lineNumber, value);
+        else
+            data.add(value);
     }
 
-    public void appendData(int columnNumber, String value)
+    public void appendData(int lineNumber, char value)
     {
-        int lineNumber = data.size() - 1;
-        data.get(lineNumber).add(columnNumber, value);
+        String line = data.get(lineNumber) + value;
+        data.set(lineNumber, line);
     }
 
-    public void appendData(String value)
+    public void appendData(char value)
     {
-        int lineNumber = data.size();
-        int columnNumber = data.get(0).size() - 1;
-        data.get(lineNumber).add(columnNumber, value);
-    }
-
-    public void appendToData(int lineNumber, int columnNumber, String value)
-    {
-        String element = data.get(lineNumber).get(columnNumber) + value;
-        data.get(lineNumber).set(columnNumber, element);
-    }
-
-    public void appendToData(int lineNumber, int columnNumber, char value)
-    {
-        String element = data.get(lineNumber).get(columnNumber) + value;
-        data.get(lineNumber).set(columnNumber, element);
+        appendData(data.size(), value);
     }
 
     public int linesNumber()
@@ -108,32 +83,17 @@ public class LatexFileReader
         return data.size();
     }
 
-    public int[] search(String value)
+    public int search(String value)
     {
         int lineNumber = 0;
-        int columnNumber = 0;
-        boolean found = false;
-        int[] coordinates = new int[2];
 
-        for (ArrayList<String> line : data) {
-            for (String element : line) {
-                if (element.equals(value)) {
-                    found = true;
+            for (String line : data) {
+                if (line.contains(value)) {
                     break;
                 }
-                columnNumber++;
+                ++lineNumber;
             }
-            if (found)
-                break;
-            columnNumber = 0;
-            lineNumber++;
-        }
 
-        coordinates[0] = lineNumber;
-        coordinates[1] = columnNumber;
-
-        System.out.println(coordinates);
-
-        return coordinates;
+        return lineNumber;
     }
 }

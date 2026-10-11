@@ -16,7 +16,7 @@ public class App
 
         InvoiceProcess.invoiceProcess(
                 "./src/main/java/ch/heigvd/io/data_file.csv",
-                "./src/main/java/ch/heigvd/io/invoice.tex"
+                "./src/main/java/ch/heigvd/io/new_invoice.tex"
         );
     }
 }

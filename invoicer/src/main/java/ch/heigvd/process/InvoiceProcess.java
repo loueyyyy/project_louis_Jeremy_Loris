@@ -8,6 +8,8 @@ import java.nio.charset.StandardCharsets;
 import java.io.Writer;
 import java.io.FileWriter;
 
+import java.util.ArrayList;
+
 import ch.heigvd.process.CsvDataExtractor;
 import ch.heigvd.process.LatexFileReader;
 
@@ -22,7 +24,7 @@ public class InvoiceProcess {
             Reader invoiceModelReader = new FileReader("./src/main/java/ch/heigvd/model/invoice_model.tex", StandardCharsets.UTF_8);
             LatexFileReader invoiceModelExtractor = new LatexFileReader();
 
-            Writer invoiceModelWriter = new FileWriter("./src/main/java/ch/heigvd/io/new_invoice.tex", StandardCharsets.UTF_8);
+            Writer invoiceModelWriter = new FileWriter(outputFilePath, StandardCharsets.UTF_8);
 
             csvExtractor.extraction(csvReader);
             invoiceModelExtractor.read(invoiceModelReader);
@@ -30,29 +32,81 @@ public class InvoiceProcess {
             csvReader.close();
             invoiceModelReader.close();
 
-            int[] coordinates = invoiceModelExtractor.search("HEADERS");
+            int referenceWordLine = invoiceModelExtractor.search("--- HEADERS ---");
+            int referenceWordLineNumber = referenceWordLine + 1;
 
-//            -- TODO : this line doesn't work if CsvDataExtractor doesn't have the method linesNumber
-            int newInvoiceMaxLineIndex = invoiceModelExtractor.linesNumber() + csvExtractor.linesNumber() - 1;
+            int prixFieldIndex = -1;
 
-//            -- TODO : these lines doesn't work if CsvDataExtractor doesn't have the method columnsNumber and linesNumber
-            int csvMaxLinesIndex = csvExtractor.linesNumber() - 1;
-            int csvMaxColumnsIndex = csvExtractor.columnsNumber() - 1;
-
-            for (int lineNumber = 0; lineNumber < newInvoiceMaxLineIndex; lineNumber++)
+            for (int csvColumn = 0; csvColumn < csvExtractor.columnsNumber(); csvColumn++)
             {
-                if (lineNumber == coordinates[0])
+                String csvData = csvExtractor.getData(0, csvColumn);
+
+                if (csvData.toLowerCase().equals("prix"))
                 {
-                    for (int csvLineNumber = 0; csvLineNumber < csvMaxLinesIndex; csvLineNumber++)
-                    {
-                        for (int columnNumber = 0; columnNumber < csvMaxColumnsIndex; columnNumber++)
-                        {
-                            String csvData = csvExtractor.getData(csvLineNumber, columnNumber);
-                            invoiceModelExtractor.appendData(lineNumber, columnNumber, csvData);
-                        }
-                        lineNumber++;
-                    }
+                    prixFieldIndex = csvColumn;
                 }
+
+                if (csvColumn < csvExtractor.columnsNumber() - 1)
+                    csvData += " &";
+
+                invoiceModelExtractor.appendNewLine(referenceWordLineNumber++, csvData);
+            }
+
+            referenceWordLine = invoiceModelExtractor.search("--- INSTANCES ---");
+            referenceWordLineNumber = referenceWordLine + 1;
+
+            double subTotalPrice = 0;
+
+            for (int csvLine = 1; csvLine < csvExtractor.linesNumber(); csvLine++)
+            {
+                for (int csvColumn = 0; csvColumn < csvExtractor.columnsNumber(); csvColumn++)
+                {
+                    String csvData = csvExtractor.getData(csvLine, csvColumn);
+
+                    if (csvColumn == prixFieldIndex)
+                    {
+                        subTotalPrice += Double.parseDouble(csvData);
+                        csvData += " CHF";
+                    }
+
+                    if (csvColumn < csvExtractor.columnsNumber() - 1)
+                        csvData += " &";
+                    else
+                        csvData += "\\\\";
+
+                    invoiceModelExtractor.appendNewLine(referenceWordLineNumber++, csvData);
+                }
+            }
+
+            referenceWordLine = invoiceModelExtractor.search("--- SUBTOTAL ---");
+            referenceWordLineNumber = referenceWordLine + 1;
+
+            String subTotalPriceString = "" + subTotalPrice + " CHF";
+
+            invoiceModelExtractor.appendNewLine(referenceWordLineNumber, subTotalPriceString);
+
+            referenceWordLine = invoiceModelExtractor.search("--- VAT ---");
+            referenceWordLineNumber = referenceWordLine + 1;
+
+            double vat = subTotalPrice * 8.1 / 100.0;
+            String vatString = "" + vat + " CHF";
+
+            invoiceModelExtractor.appendNewLine(referenceWordLineNumber, vatString);
+
+            referenceWordLine = invoiceModelExtractor.search("--- TOTAL ---");
+            referenceWordLineNumber = referenceWordLine + 1;
+
+            double totalPrice = subTotalPrice + vat;
+            String totalPriceString = "" + totalPrice + " CHF";
+
+            invoiceModelExtractor.appendNewLine(referenceWordLineNumber, totalPriceString);
+
+            for (int invoiceLine = 0; invoiceLine < invoiceModelExtractor.linesNumber(); invoiceLine++)
+            {
+                String line = invoiceModelExtractor.getData(invoiceLine);
+
+                invoiceModelWriter.write(line);
+                invoiceModelWriter.write(System.lineSeparator());
             }
 
             invoiceModelWriter.close();

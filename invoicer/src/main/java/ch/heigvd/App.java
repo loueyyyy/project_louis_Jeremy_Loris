@@ -1,0 +1,26 @@
+package ch.heigvd;
+
+//import java.io.Reader;
+//import java.io.FileReader;
+//import java.nio.charset.StandardCharsets;
+//
+//import ch.heigvd.io.CsvDataExtractor;
+
+import ch.heigvd.process.InvoiceProcess;
+import  ch.heigvd.process.ModifyProcess;
+
+public class App 
+{
+    public static void main( String[] args )
+    {
+
+        InvoiceProcess.invoiceProcess(
+                "./src/main/java/ch/heigvd/io/data_file.csv",
+                "./src/main/java/ch/heigvd/io/new_invoice.tex"
+        );
+        ModifyProcess.sort(
+                "./src/main/java/ch/heigvd/io/data_file.csv",
+                "./src/main/java/ch/heigvd/io/new_data_file.csv",
+                "nom");
+    }
+}

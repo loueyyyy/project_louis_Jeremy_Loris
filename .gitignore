@@ -1,7 +1,8 @@
 target/
 
+dependency-reduced-pom.xml
+
 .vscode/
 
 .idea/
 
-dependency-reduced-pom.xml

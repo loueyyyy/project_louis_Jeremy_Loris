@@ -6,8 +6,8 @@ package ch.heigvd;
 //
 //import ch.heigvd.io.CsvDataExtractor;
 
-import java.io.IOException;
-import  ch.heigvd.process.InvoiceProcess;
+import ch.heigvd.process.InvoiceProcess;
+import  ch.heigvd.process.ModifyProcess;
 
 public class App 
 {
@@ -18,5 +18,9 @@ public class App
                 "./src/main/java/ch/heigvd/io/data_file.csv",
                 "./src/main/java/ch/heigvd/io/new_invoice.tex"
         );
+        ModifyProcess.sort(
+                "./src/main/java/ch/heigvd/io/data_file.csv",
+                "./src/main/java/ch/heigvd/io/new_data_file.csv",
+                "nom");
     }
 }

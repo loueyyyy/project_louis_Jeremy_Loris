@@ -75,11 +75,29 @@ public class CsvDataExtractor {
 
     public void appendData(int lineNumber, int columnNumber, String value)
     {
+        if (lineNumber >= data.size())
+        {
+            appendData(value);
+            return;
+        }
+
+        if (columnNumber >= data.get(lineNumber).size())
+        {
+            appendData(lineNumber, value);
+            return;
+        }
+
         data.get(lineNumber).add(columnNumber, value);
     }
 
     public void appendData(int lineNumber, String value)
     {
+        if (lineNumber >= data.size())
+        {
+            appendData(value);
+            return;
+        }
+
         data.add(lineNumber, new ArrayList<>());
         data.get(lineNumber).add(value);
     }

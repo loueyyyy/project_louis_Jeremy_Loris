@@ -1,30 +1,23 @@
 package ch.heigvd.process;
 
-import java.io.Reader;
+import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-
-import java.io.Writer;
 import java.io.FileWriter;
-
-import java.util.ArrayList;
-
-import ch.heigvd.process.CsvDataExtractor;
-import ch.heigvd.process.LatexFileReader;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 
 public class InvoiceProcess {
 
     public static void invoiceProcess(String inputFilePath, String outputFilePath) {
 
-        try {
-            Reader csvReader = new FileReader(inputFilePath, StandardCharsets.UTF_8);
+        try (BufferedReader csvReader = new BufferedReader(new FileReader(inputFilePath, StandardCharsets.UTF_8));
+             Reader invoiceModelReader = new FileReader("./src/main/java/ch/heigvd/model/invoice_model.tex", StandardCharsets.UTF_8);
+             Writer invoiceModelWriter = new FileWriter(outputFilePath, StandardCharsets.UTF_8)) {
             CsvDataExtractor csvExtractor = new CsvDataExtractor();
 
-            Reader invoiceModelReader = new FileReader("./src/main/java/ch/heigvd/model/invoice_model.tex", StandardCharsets.UTF_8);
             LatexFileReader invoiceModelExtractor = new LatexFileReader();
 
-            Writer invoiceModelWriter = new FileWriter(outputFilePath, StandardCharsets.UTF_8);
 
             csvExtractor.extraction(csvReader);
             invoiceModelExtractor.read(invoiceModelReader);

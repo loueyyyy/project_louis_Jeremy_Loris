@@ -10,7 +10,7 @@ import picocli.CommandLine.Option;
     name = "invoice",
     mixinStandardHelpOptions = true,
     version = "Invoicer 1.0",
-    description = "Create PDF invoices from a CSV file.",
+    description = "Create latex invoices from a CSV file.",
     sortOptions = false,
     sortSynopsis = false 
 )
@@ -22,7 +22,7 @@ public class InvoiceCommand implements Runnable {
     private String inputFilePath;
 
     @Option(names = {"-o", "--output"},
-    description = "Output PDF invoice file path",
+    description = "Output latex invoice file path",
     required = true)
     private String outputFilePath;
 
@@ -37,8 +37,8 @@ public class InvoiceCommand implements Runnable {
             IOhelper.inputFileCheck(inputFilePath);
 
             // Validate output file
-            if (!IOhelper.pdfExtension(outputFilePath)) {
-                throw new IllegalArgumentException("Output must be a .pdf file: " + outputFilePath);
+            if (!IOhelper.texExtension(outputFilePath)) {
+                throw new IllegalArgumentException("Output must be a .tex file: " + outputFilePath);
             }
             IOhelper.outputFileCheck(outputFilePath);
 
@@ -48,7 +48,7 @@ public class InvoiceCommand implements Runnable {
             // Perform invoice operation
             InvoiceProcess.invoiceProcess(inputFilePath, outputFilePath);
 
-            System.out.println("Success. Created invoice PDF file: " + outputFilePath + " from input CSV file: " + inputFilePath);
+            System.out.println("Success. Created invoice latex file: " + outputFilePath + " from input CSV file: " + inputFilePath);
 
         } catch (Exception e) {
             System.err.println(e.getMessage());

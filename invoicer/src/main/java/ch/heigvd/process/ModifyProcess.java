@@ -30,7 +30,7 @@ public class ModifyProcess {
 
             --dataColumnToReplace;
 
-            while (replace.charAt(charIndex) != ' ')
+            while (replace.charAt(charIndex) != ':')
                 dataLineToReplace = (dataLineToReplace * 10) + replace.charAt(charIndex++) - '0';
 
             --dataLineToReplace;
@@ -198,11 +198,8 @@ public class ModifyProcess {
                     csvWriter.write(dataToWrite);
                 }
             }
-
-            if (add.contains(";"))
-                newData = add.split(";");
-            else
-                newData = add.split(" ");
+            
+            newData = add.split(";");
 
             for (int csvColumn = 0; csvColumn < csvExtractor.columnsNumber(); csvColumn++)
             {

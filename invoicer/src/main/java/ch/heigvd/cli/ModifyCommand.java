@@ -9,7 +9,7 @@ import picocli.CommandLine.Option;
     name = "modify",
     mixinStandardHelpOptions = true,
     version = "Invoicer 1.0",
-    description = "Modify a CSV file and create a new modified CSV file.",
+    description = "Modify a CSV file and create a new modified CSV file.\nOnly one modification option can be used at a time.",
     sortOptions = false,
     sortSynopsis = false    
 )
@@ -32,40 +32,35 @@ public class ModifyCommand implements Runnable {
         names = {"-r", "--replace"},
         description = "Replace specific values in the CSV file",
         required = false,
-        paramLabel = "lettreCol,numRow,newVal",
-        arity = "1..*")
+        paramLabel = "lettreCol,numRow,newVal")
     private String replace;
 
     @Option (
         names = {"-dr", "--delete-rows"},
         description = "Delete specific rows from the CSV file",
         required = false,
-        paramLabel = "numRow or numRow-numRow",
-        arity = "1..*")
+        paramLabel = "numRow or numRow-numRow")
     private String deleteRows;
 
     @Option (
         names = {"-dc", "--delete-columns"},
         description = "Delete specific columns from the CSV file",
         required = false,
-        paramLabel = "lettreCol or lettreCol-lettreCol",
-        arity = "1..*")
+        paramLabel = "lettreCol or lettreCol-lettreCol")
     private String deleteColumns;
 
     @Option (
         names = {"-a", "--add"},
         description = "Add new row to the CSV file",
         required = false,
-        paramLabel = "newLine",
-        arity = "1")
+        paramLabel = "newLine")
     private String add;
 
     @Option (
         names = { "-s", "--sort" },
         description = "Sort the CSV file by specific columns or lines",
         required = false,
-        paramLabel = "firstElemCol",
-        arity = "1")
+        paramLabel = "firstElemCol")
     private String sort;
 
     
@@ -87,38 +82,47 @@ public class ModifyCommand implements Runnable {
             
             // Check if at least one modification option is provided
             if (replace == null && deleteRows == null && deleteColumns == null && add == null && sort == null) {
-                throw new IllegalArgumentException("At least one modification option must be provided.");
+                throw new IllegalArgumentException("One and only one modification option must be provided at a time.");
             }
 
             System.out.println("Modifying CSV file: " + inputFilePath);
             System.out.println("Output will be saved to: " + outputFilePath);
 
-            /********************************************************************************************
-            // TODO: gérer les conflits entre les options (ex: deleteRows et add)
-            ********************************************************************************************/
-
             // Perform modify operation
+            int modificationCount = 0;
             if (replace != null) {
                 checkReplace(replace);
                 System.out.println("Replacing values: " + replace);
                 ModifyProcess.replace(inputFilePath, outputFilePath, replace);
-            }
-            if (deleteRows != null) {
+                modificationCount++;
+            } else if (deleteRows != null) {
+                if (modificationCount > 0) {
+                    throw new IllegalArgumentException("Only one modification option can be used at a time.");
+                }
                 checkRows(deleteRows);
                 System.out.println("Deleting rows: " + deleteRows);
                 ModifyProcess.deleteRows(inputFilePath, outputFilePath, deleteRows);
-            }
-            if (deleteColumns != null) {
+                modificationCount++;
+            } else if (deleteColumns != null) {
+                if (modificationCount > 0) {
+                    throw new IllegalArgumentException("Only one modification option can be used at a time.");
+                }
                 checkColumns(deleteColumns);
                 System.out.println("Deleting columns: " + deleteColumns);
                 ModifyProcess.deleteColumns(inputFilePath, outputFilePath, deleteColumns);
-            }
-            if (add != null) {
+                modificationCount++;
+            } else if (add != null) {
+                if (modificationCount > 0) {
+                    throw new IllegalArgumentException("Only one modification option can be used at a time.");
+                }
                 checkAdd(add);
                 System.out.println("Adding rows/columns: " + add);
                 ModifyProcess.add(inputFilePath, outputFilePath, add);
-            }
-            if (sort != null) {
+                modificationCount++;
+            } else if (sort != null) {
+                if (modificationCount > 0) {
+                    throw new IllegalArgumentException("Only one modification option can be used at a time.");
+                }
                 checkSort(sort);
                 System.out.println("Sorting by: " + sort);
                 ModifyProcess.sort(inputFilePath, outputFilePath, sort);

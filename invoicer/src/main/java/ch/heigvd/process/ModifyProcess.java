@@ -85,7 +85,7 @@ public class ModifyProcess {
 
             csvExtractor.extraction(csvReader);
 
-            while (deleteRows.charAt(charIndex) != ' ')
+            while (deleteRows.charAt(charIndex) != '-')
                 rowToDeleteStart = (rowToDeleteStart * 10) + deleteRows.charAt(charIndex++) - '0';
 
             --rowToDeleteStart;
@@ -139,7 +139,7 @@ public class ModifyProcess {
 
             csvExtractor.extraction(csvReader);
 
-            while (deleteColumns.charAt(charIndex) != ' ')
+            while (deleteColumns.charAt(charIndex) != '-')
                 columnToDeleteStart = (columnToDeleteStart * 26) + deleteColumns.charAt(charIndex++) - 'A' + 1;
 
             --columnToDeleteStart;

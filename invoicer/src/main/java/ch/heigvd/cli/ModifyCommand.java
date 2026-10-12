@@ -9,7 +9,7 @@ import picocli.CommandLine.Option;
     name = "modify",
     mixinStandardHelpOptions = true,
     version = "Invoicer 1.0",
-    description = "Modify a CSV file and create a new modified CSV file.\nOnly one modification option can be used at a time.",
+    description = "Modify a CSV file and create a new modified CSV file.\nOnly one modification option can be used at a time.\nReplace and add needs new values as csv format.(separated by \";\")",
     sortOptions = false,
     sortSynopsis = false    
 )
@@ -32,7 +32,7 @@ public class ModifyCommand implements Runnable {
         names = {"-r", "--replace"},
         description = "Replace specific values in the CSV file",
         required = false,
-        paramLabel = "lettreCol,numRow,newVal")
+        paramLabel = "lettreColNumRow:newVal")
     private String replace;
 
     @Option (
@@ -53,7 +53,7 @@ public class ModifyCommand implements Runnable {
         names = {"-a", "--add"},
         description = "Add new row to the CSV file",
         required = false,
-        paramLabel = "newLine")
+        paramLabel = "newLine(separated by \";\")")
     private String add;
 
     @Option (
@@ -138,21 +138,18 @@ public class ModifyCommand implements Runnable {
 
     // Checks "colLetter,rowNumber,newVal"
     private void checkReplace(String value) {
-        String[] parts = value.split(",", 3);
-        if (parts.length != 3) {
-            throw new IllegalArgumentException("--replace: expected format <colLetter,rowNumber,newVal> (got: " + value + ")");
+        String[] parts = value.split(",", 2);
+        if (parts.length != 2) {
+            throw new IllegalArgumentException("--replace: expected format <ColLetterRowNumber:newVal> (got: " + value + ")");
         }
-        if (!parts[0].matches("[A-Za-z]+")) {
+        if (!parts[0].matches("[A-Za-z]+[1-9][0-9]*")) {
             throw new IllegalArgumentException("--replace: column must be one or more letters (got: " + parts[0] + ")");
-        }
-        if (!parts[1].matches("[0-9]+") || Integer.parseInt(parts[1]) < 1) {
-            throw new IllegalArgumentException("--replace: row must be a number >= 1 (got: " + parts[1] + ")");
         }
     }
 
     // Checks "numRow" or "numRow-numRow"
     private void checkRows(String value) {
-        if (!value.matches("[0-9]+(-[0-9]+)?")) {
+        if (!value.matches("[1-9][0-9]*(-[1-9][0-9]*)?")) {
             throw new IllegalArgumentException("--delete-rows: expected format <rowNumber> or <rowNumber-rowNumber> (got: " + value + ")");
         }
         String[] parts = value.split("-");
@@ -180,7 +177,7 @@ public class ModifyCommand implements Runnable {
     // Checks "firstElemCol"
     private void checkSort(String value) {
         if (!value.matches("[A-Za-z]+")) {
-            throw new IllegalArgumentException("--sort: a column (letters) is expected (got: " + value + ")");
+            throw new IllegalArgumentException("--sort: the first element of a column is expected (got: " + value + ")");
         }
     }
     

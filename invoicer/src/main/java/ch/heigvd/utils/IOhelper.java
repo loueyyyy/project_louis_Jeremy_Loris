@@ -71,8 +71,8 @@ public final class IOhelper {
         return filePath != null && filePath.toLowerCase().endsWith(".csv");
     }
 
-    public static boolean pdfExtension(String filePath) {
-        return filePath != null && filePath.toLowerCase().endsWith(".pdf");
+    public static boolean texExtension(String filePath) {
+        return filePath != null && filePath.toLowerCase().endsWith(".tex");
     }
 
     

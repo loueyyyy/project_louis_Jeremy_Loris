@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 
 public class InvoiceProcess {
 
@@ -21,9 +22,6 @@ public class InvoiceProcess {
 
             csvExtractor.extraction(csvReader);
             invoiceModelExtractor.read(invoiceModelReader);
-
-            csvReader.close();
-            invoiceModelReader.close();
 
             int referenceWordLine = invoiceModelExtractor.search("--- HEADERS ---");
             int referenceWordLineNumber = referenceWordLine + 1;
@@ -74,7 +72,7 @@ public class InvoiceProcess {
             referenceWordLine = invoiceModelExtractor.search("--- SUBTOTAL ---");
             referenceWordLineNumber = referenceWordLine + 1;
 
-            String subTotalPriceString = "" + subTotalPrice + " CHF";
+            String subTotalPriceString = String.format(Locale.US, "%.2f", subTotalPrice) + " CHF";
 
             invoiceModelExtractor.appendNewLine(referenceWordLineNumber, subTotalPriceString);
 
@@ -82,7 +80,7 @@ public class InvoiceProcess {
             referenceWordLineNumber = referenceWordLine + 1;
 
             double vat = subTotalPrice * 8.1 / 100.0;
-            String vatString = "" + vat + " CHF";
+            String vatString = String.format(Locale.US, "%.2f", vat) + " CHF";
 
             invoiceModelExtractor.appendNewLine(referenceWordLineNumber, vatString);
 
@@ -90,7 +88,7 @@ public class InvoiceProcess {
             referenceWordLineNumber = referenceWordLine + 1;
 
             double totalPrice = subTotalPrice + vat;
-            String totalPriceString = "" + totalPrice + " CHF";
+            String totalPriceString = String.format(Locale.US, "%.2f", totalPrice) + " CHF";
 
             invoiceModelExtractor.appendNewLine(referenceWordLineNumber, totalPriceString);
 
@@ -102,7 +100,6 @@ public class InvoiceProcess {
                 invoiceModelWriter.write(System.lineSeparator());
             }
 
-            invoiceModelWriter.close();
         }
         catch (Exception e) {
             System.err.println(e.getMessage());

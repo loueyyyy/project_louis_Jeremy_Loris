@@ -91,8 +91,8 @@ public class ModifyCommand implements Runnable {
             // Perform modify operation
             int modificationCount = 0;
             if (replace != null) {
-                checkReplace(replace);
                 System.out.println("Replacing values: " + replace);
+                checkReplace(replace);
                 ModifyProcess.replace(inputFilePath, outputFilePath, replace);
                 modificationCount++;
             } else if (deleteRows != null) {
@@ -138,7 +138,7 @@ public class ModifyCommand implements Runnable {
 
     // Checks "colLetter,rowNumber,newVal"
     private void checkReplace(String value) {
-        String[] parts = value.split(",", 2);
+        String[] parts = value.split(":", 2);
         if (parts.length != 2) {
             throw new IllegalArgumentException("--replace: expected format <ColLetterRowNumber:newVal> (got: " + value + ")");
         }

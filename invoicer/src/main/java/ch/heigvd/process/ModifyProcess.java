@@ -1,23 +1,21 @@
 package ch.heigvd.process;
 
-import java.io.Reader;
-import java.io.Writer;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-
 import java.util.Arrays;
 
 public class ModifyProcess {
 
     public static void replace(String inputFilePath, String outputFilePath, String replace)
     {
-        try {
-            Reader csvReader = new FileReader(inputFilePath, StandardCharsets.UTF_8);
+        try (BufferedReader csvReader = new BufferedReader(new FileReader(inputFilePath, StandardCharsets.UTF_8));
+            BufferedWriter csvWriter = new BufferedWriter(new FileWriter(outputFilePath, StandardCharsets.UTF_8))) {
             CsvDataExtractor csvExtractor = new CsvDataExtractor();
 
-            Writer csvWriter = new FileWriter(outputFilePath, StandardCharsets.UTF_8);
 
             int dataColumnToReplace = 0;
             int dataLineToReplace = 0;
@@ -32,7 +30,7 @@ public class ModifyProcess {
 
             --dataColumnToReplace;
 
-            while (replace.charAt(charIndex) != ' ')
+            while (replace.charAt(charIndex) != ':')
                 dataLineToReplace = (dataLineToReplace * 10) + replace.charAt(charIndex++) - '0';
 
             --dataLineToReplace;
@@ -61,8 +59,6 @@ public class ModifyProcess {
                 }
             }
 
-            csvReader.close();
-            csvWriter.close();
         }
         catch (IOException e) {
             System.err.println(e.getMessage());
@@ -72,11 +68,10 @@ public class ModifyProcess {
 
     public static void deleteRows(String inputFilePath, String outputFilePath, String deleteRows)
     {
-        try {
-            Reader csvReader = new FileReader(inputFilePath, StandardCharsets.UTF_8);
+        try (BufferedReader csvReader = new BufferedReader(new FileReader(inputFilePath, StandardCharsets.UTF_8));
+            BufferedWriter csvWriter = new BufferedWriter(new FileWriter(outputFilePath, StandardCharsets.UTF_8))) {
             CsvDataExtractor csvExtractor = new CsvDataExtractor();
 
-            Writer csvWriter = new FileWriter(outputFilePath, StandardCharsets.UTF_8);
 
             int rowToDeleteStart = 0;
             int rowToDeleteEnd = 0;
@@ -115,8 +110,6 @@ public class ModifyProcess {
                 }
             }
 
-            csvReader.close();
-            csvWriter.close();
         }
         catch (IOException e) {
             System.err.println(e.getMessage());
@@ -126,11 +119,10 @@ public class ModifyProcess {
 
     public static void deleteColumns(String inputFilePath, String outputFilePath, String deleteColumns)
     {
-        try {
-            Reader csvReader = new FileReader(inputFilePath, StandardCharsets.UTF_8);
+        try (BufferedReader csvReader = new BufferedReader(new FileReader(inputFilePath, StandardCharsets.UTF_8));
+            BufferedWriter csvWriter = new BufferedWriter(new FileWriter(outputFilePath, StandardCharsets.UTF_8))) {
             CsvDataExtractor csvExtractor = new CsvDataExtractor();
 
-            Writer csvWriter = new FileWriter(outputFilePath, StandardCharsets.UTF_8);
 
             int columnToDeleteStart = 0;
             int columnToDeleteEnd = 0;
@@ -173,8 +165,6 @@ public class ModifyProcess {
                 }
             }
 
-            csvReader.close();
-            csvWriter.close();
         }
         catch (IOException e) {
             System.err.println(e.getMessage());
@@ -184,11 +174,10 @@ public class ModifyProcess {
 
     public static void add(String inputFilePath, String outputFilePath, String add)
     {
-        try {
-            Reader csvReader = new FileReader(inputFilePath, StandardCharsets.UTF_8);
+        try (BufferedReader csvReader = new BufferedReader(new FileReader(inputFilePath, StandardCharsets.UTF_8));
+            BufferedWriter csvWriter = new BufferedWriter(new FileWriter(outputFilePath, StandardCharsets.UTF_8))) {
             CsvDataExtractor csvExtractor = new CsvDataExtractor();
 
-            Writer csvWriter = new FileWriter(outputFilePath, StandardCharsets.UTF_8);
 
             String dataToWrite;
             String[] newData;
@@ -209,11 +198,8 @@ public class ModifyProcess {
                     csvWriter.write(dataToWrite);
                 }
             }
-
-            if (add.contains(";"))
-                newData = add.split(";");
-            else
-                newData = add.split(" ");
+            
+            newData = add.split(";");
 
             for (int csvColumn = 0; csvColumn < csvExtractor.columnsNumber(); csvColumn++)
             {
@@ -227,8 +213,6 @@ public class ModifyProcess {
                 csvWriter.write(dataToWrite);
             }
 
-            csvReader.close();
-            csvWriter.close();
         }
         catch (IOException e) {
             System.err.println(e.getMessage());
@@ -238,11 +222,9 @@ public class ModifyProcess {
 
     public static void sort(String inputFilePath, String outputFilePath, String sort)
     {
-        try {
-            Reader csvReader = new FileReader(inputFilePath, StandardCharsets.UTF_8);
+        try (BufferedReader csvReader = new BufferedReader(new FileReader(inputFilePath, StandardCharsets.UTF_8));
+            BufferedWriter csvWriter = new BufferedWriter(new FileWriter(outputFilePath, StandardCharsets.UTF_8))) {
             CsvDataExtractor csvExtractor = new CsvDataExtractor();
-
-            Writer csvWriter = new FileWriter(outputFilePath, StandardCharsets.UTF_8);
 
             csvExtractor.extraction(csvReader);
 
@@ -296,8 +278,6 @@ public class ModifyProcess {
                 }
             }
 
-            csvReader.close();
-            csvWriter.close();
         }
         catch (IOException e) {
             System.err.println(e.getMessage());

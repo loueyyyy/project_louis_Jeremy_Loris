@@ -109,9 +109,9 @@ class CsvDataExtractorTest {
 
         csv.appendData(1, "b");
 
-        assertEquals(3, csv.linesNumber());
-        assertEquals("b", csv.getData(1, 0));
-        assertEquals("c", csv.getData(2, 0));
+        assertEquals(2, csv.linesNumber());
+        assertEquals("b", csv.getData(1, 1));
+        assertEquals("c", csv.getData(1, 0));
     }
 
     @Test

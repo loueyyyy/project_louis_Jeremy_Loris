@@ -91,21 +91,21 @@ class ModifyProcessTest {
 
     @Test
     void deleteRowsRemovesARangeOfRows() throws IOException {
-        ModifyProcess.deleteRows(input(CSV), output(), "2 3");
+        ModifyProcess.deleteRows(input(CSV), output(), "2-3");
 
         assertEquals(List.of("Nom;Ville;Prix", "Bernard;Yverdon;15.20"), result());
     }
 
     @Test
     void deleteRowsRemovesASingleRowWhenTheRangeHasOneRow() throws IOException {
-        ModifyProcess.deleteRows(input(CSV), output(), "3 3");
+        ModifyProcess.deleteRows(input(CSV), output(), "3-3");
 
         assertEquals(List.of("Nom;Ville;Prix","Martin;Geneve;8.90","Bernard;Yverdon;15.20"), result());
     }
 
     @Test
     void deleteRowsCanRemoveTheHeader() throws IOException {
-        ModifyProcess.deleteRows(input(CSV), output(), "1 1");
+        ModifyProcess.deleteRows(input(CSV), output(), "1-1");
 
         assertEquals(3, result().size());
         assertEquals("Martin;Geneve;8.90", result().get(0));
@@ -115,14 +115,14 @@ class ModifyProcessTest {
 
     @Test
     void deleteColumnsRemovesARangeOfColumns() throws IOException {
-        ModifyProcess.deleteColumns(input(CSV), output(), "A B");
+        ModifyProcess.deleteColumns(input(CSV), output(), "A-B");
 
         assertEquals(List.of("Prix", "8.90", "12.50", "15.20"), result());
     }
 
     @Test
     void deleteColumnsRemovesASingleColumnWhenTheRangeHasOneColumn() throws IOException {
-        ModifyProcess.deleteColumns(input(CSV), output(), "B B");
+        ModifyProcess.deleteColumns(input(CSV), output(), "B-B");
 
         assertEquals(List.of("Nom;Prix","Martin;8.90","dupont;12.50","Bernard;15.20"), result());
     }
@@ -130,7 +130,7 @@ class ModifyProcessTest {
     @Disabled("delete la derniere colonne fait tt bug")
     @Test
     void deleteColumnsCanRemoveTheLastColumn() throws IOException {
-        ModifyProcess.deleteColumns(input(CSV), output(), "C C");
+        ModifyProcess.deleteColumns(input(CSV), output(), "C-C");
 
         assertEquals("Nom;Ville", result().get(0));
         assertEquals("Bernard;Yverdon", result().get(3));
@@ -214,15 +214,15 @@ class ModifyProcessTest {
         assertEquals(List.of("a;1", "b;5", "c;3", "d;7", "e;9", "f;11","g;10", "h;8", "i;6", "j;2", "k;0", "l;4"), lastLines(12));
     }
 
-    @Disabled("Comme on en a parlé ya un problème de diff de format entre ModifyCommand et ModifyProcess (B2 vs B:2)")
+    //@Disabled("Comme on en a parlé ya un problème de diff de format entre ModifyCommand et ModifyProcess (B2 vs B:2)")
     @Test
     void replaceAcceptsTheFormatCheckedByTheCommand() throws IOException {
-        ModifyProcess.replace(input(CSV), output(), "B2,Fribourg");
+        ModifyProcess.replace(input(CSV), output(), "B2:Fribourg");
 
         assertEquals("Martin;Fribourg;8.90", result().get(1));
     }
 
-    @Disabled("Meme bug que au dessus mais avec 2-3 vs 2 3")
+    //@Disabled("Meme bug que au dessus mais avec 2-3 vs 2 3")
     @Test
     void deleteRowsAcceptsTheFormatCheckedByTheCommand() throws IOException {
         ModifyProcess.deleteRows(input(CSV), output(), "2-3");
@@ -230,7 +230,7 @@ class ModifyProcessTest {
         assertEquals(List.of("Nom;Ville;Prix", "Bernard;Yverdon;15.20"), result());
     }
 
-    @Disabled("pareil que au dessus")
+    //@Disabled("pareil que au dessus")
     @Test
     void deleteColumnsAcceptsTheFormatCheckedByTheCommand() throws IOException {
         ModifyProcess.deleteColumns(input(CSV), output(), "A-B");

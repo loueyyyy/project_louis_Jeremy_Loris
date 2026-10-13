@@ -201,7 +201,7 @@ class ModifyProcessTest {
         assertEquals(4, result().size());
     }
 
-    @Disabled("J'en ai déja parlé dans un commit ou message mais ya un bug au dessus de 10 lignes qui fait foirer le sort")
+    //@Disabled("J'en ai déja parlé dans un commit ou message mais ya un bug au dessus de 10 lignes qui fait foirer le sort")
     @Test
     void sortHandlesMoreThanNineLines() throws IOException {
         String[] names = {"k", "a", "j", "c", "l", "b", "i", "d", "h", "e", "g", "f"};

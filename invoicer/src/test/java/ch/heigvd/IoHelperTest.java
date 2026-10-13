@@ -13,6 +13,8 @@ import ch.heigvd.utils.IOhelper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import ch.heigvd.utils.IOhelper;
+
 
 class IOhelperTest {
 

@@ -28,9 +28,9 @@ Maven n'a pas besoin d'être installé : le dépôt contient le Maven wrapper.
 
 ## Installation
 
-```bash
-git clone https://github.com/<organisation>/<depot>.git
-cd <depot>/invoicer
+```bash 
+git clone https://github.com/loueyyyy/project_louis_Jeremy_Loris.git
+cd ./invoicer
 ./mvnw clean package
 ```
 

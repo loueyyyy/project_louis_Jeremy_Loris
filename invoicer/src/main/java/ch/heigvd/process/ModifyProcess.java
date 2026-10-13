@@ -26,7 +26,7 @@ public class ModifyProcess {
             csvExtractor.extraction(csvReader);
 
             while (!Character.isDigit(replace.charAt(charIndex)))
-                dataColumnToReplace = (dataColumnToReplace * 26) + replace.charAt(charIndex++) - 'A' + 1;
+                dataColumnToReplace = (dataColumnToReplace * 26) + replace.toUpperCase().charAt(charIndex++) - 'A' + 1;
 
             --dataColumnToReplace;
 
@@ -152,7 +152,14 @@ public class ModifyProcess {
                 for (int csvColumn = 0; csvColumn < csvExtractor.columnsNumber(); csvColumn++)
                 {
                     if (csvColumn >= columnToDeleteStart && csvColumn <= columnToDeleteEnd)
+                    {
+                        if (columnToDeleteEnd == csvExtractor.ColumnsNumber() && csvExtractor.getData(csvLine, csvColumn).contains('\n'))
+                        {
+                            csvWriter.write(System.lineSeparator());
+                        }
+
                         continue;
+                    }
 
                     dataToWrite = csvExtractor.getData(csvLine, csvColumn);
 

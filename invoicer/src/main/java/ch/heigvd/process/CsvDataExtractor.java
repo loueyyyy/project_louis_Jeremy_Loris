@@ -69,6 +69,11 @@ public class CsvDataExtractor {
                 && (char) buffer != '\n') {
                     appendToData(lineNumber, elementNumber, (char) buffer);
                 }
+
+                while (data.get(lineNumber).get(0).isEmpty()) {
+                    data.remove(lineNumber);
+                    --lineNumber;
+                }
             }
         }
         catch (Exception e) {

@@ -91,7 +91,7 @@ class InvoiceProcessTest {
     void thePriceColumnIsFoundWhateverTheCase() throws IOException {
         List<String> lines = invoice("PRIX;Nom\n7;Eau");
 
-        assertEquals("7.0 CHF", lineAfter(lines, "--- SUBTOTAL ---"));
+        assertEquals("7.00 CHF", lineAfter(lines, "--- SUBTOTAL ---"));
     }
 
     
@@ -106,14 +106,16 @@ class InvoiceProcessTest {
     void theVatIs8Point1PercentOfTheSubtotal() throws IOException {
         List<String> lines = invoice("Nom;Prix\na;10.5\nb;20.25");
 
-        assertEquals(30.75 * 0.081, amountAfter(lines, "--- VAT ---"), 0.0001);
+        double exceptedVat = Math.round(30.75 * 0.081 * 100) / 100.0;
+        assertEquals(exceptedVat, amountAfter(lines, "--- VAT ---"), 0.0001);
     }
 
     @Test
     void theTotalIsTheSubtotalPlusTheVat() throws IOException {
         List<String> lines = invoice("Nom;Prix\na;10.5\nb;20.25");
 
-        assertEquals(30.75 * 1.081, amountAfter(lines, "--- TOTAL ---"), 0.0001);
+        double expectedTotal = Math.round(30.75 * 1.081 * 100) / 100.0;
+        assertEquals(expectedTotal, amountAfter(lines, "--- TOTAL ---"), 0.0001);
     }
 
     // Edge case: no line below the header
@@ -121,7 +123,7 @@ class InvoiceProcessTest {
     void aHeaderWithoutDataGivesZeroTotals() throws IOException {
         List<String> lines = invoice("Nom;Prix");
 
-        assertEquals("0.0 CHF", lineAfter(lines, "--- SUBTOTAL ---"));
+        assertEquals("0.00 CHF", lineAfter(lines, "--- SUBTOTAL ---"));
         assertEquals(0.0, amountAfter(lines, "--- VAT ---"), 0.0001);
         assertEquals(0.0, amountAfter(lines, "--- TOTAL ---"), 0.0001);
     }

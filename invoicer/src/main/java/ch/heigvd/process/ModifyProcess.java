@@ -237,10 +237,11 @@ public class ModifyProcess {
             int columnSortingReference = 0;
             String[] dataToSort = new String[csvExtractor.linesNumber() - 1];
             int[] dataSortingOrder = new int[csvExtractor.linesNumber() - 1];
-
+            //find the column
             for (int csvColumn = 0; csvColumn < csvExtractor.columnsNumber(); csvColumn++)
             {
-                if (csvExtractor.getData(0, csvColumn).toLowerCase().equals(sort))
+                //if (csvExtractor.getData(0, csvColumn).toLowerCase().equals(sort))
+                if (csvExtractor.getData(0, csvColumn).equalsIgnoreCase(sort))
                 {
                     columnSortingReference = csvColumn;
                     break;
@@ -255,7 +256,7 @@ public class ModifyProcess {
             Arrays.sort(dataToSort, String.CASE_INSENSITIVE_ORDER);
 
 
-            for (int csvLine = 0; csvLine < csvExtractor.linesNumber() - 1; csvLine++) {
+            /**for (int csvLine = 0; csvLine < csvExtractor.linesNumber() - 1; csvLine++) {
 
                 int dataToSortColumnIndex = dataToSort[csvLine].length() - 1;
 
@@ -266,13 +267,18 @@ public class ModifyProcess {
                 }
                 dataSortingOrder[csvLine] /= 10;
                 ++dataSortingOrder[csvLine];
+            }**/
+
+            for (int csvLine = 0; csvLine < dataToSort.length; csvLine++) {
+                int separatorIndex = dataToSort[csvLine].lastIndexOf("!");
+                dataSortingOrder[csvLine] = Integer.parseInt(dataToSort[csvLine].substring(separatorIndex + 1));
             }
 
             for (int sortedIndex :  dataSortingOrder)
             {
                 for (int csvColumn = 0; csvColumn < csvExtractor.columnsNumber(); csvColumn++)
                 {
-                    dataToWrite = csvExtractor.getData(sortedIndex, csvColumn);
+                    dataToWrite = csvExtractor.getData(sortedIndex +1 , csvColumn);
 
                     if (csvColumn != csvExtractor.columnsNumber() - 1)
                         dataToWrite += ";";

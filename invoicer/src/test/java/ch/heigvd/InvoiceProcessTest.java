@@ -13,7 +13,9 @@ import org.junit.jupiter.api.io.TempDir;
 
 import ch.heigvd.process.InvoiceProcess;
 
-
+/**
+ * Unit tests for invoice generation, formatting, and total calculations.
+ */
 class InvoiceProcessTest {
 
     private static final Path MODEL = Path.of("./src/main/java/ch/heigvd/model/invoice_model.tex");

@@ -3,6 +3,9 @@ package ch.heigvd.process;
 import java.io.Reader;
 import java.util.ArrayList;
 
+/**
+ * Reads, stores, searches, and modifies lines of a LaTeX file.
+ */
 public class LatexFileReader
 {
     ArrayList<String> data;

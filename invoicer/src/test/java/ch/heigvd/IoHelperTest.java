@@ -13,7 +13,9 @@ import ch.heigvd.utils.IOhelper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-
+/**
+ * Unit tests for file extension validation and input/output file checks.
+ */
 class IOhelperTest {
 
     @TempDir

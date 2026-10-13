@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 
 import ch.heigvd.process.LatexFileReader;
 
+/**
+ * Unit tests for reading, searching, and modifying LaTeX file lines.
+ */
 class LatexFileReaderTest {
 
     private static LatexFileReader read(String text) {

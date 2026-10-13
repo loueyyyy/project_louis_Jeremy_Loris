@@ -3,6 +3,10 @@ package ch.heigvd.process;
 import java.io.Reader;
 import java.util.ArrayList;
 
+
+/**
+ * Extracts, stores, and modifies CSV data, providing access to rows and columns.
+ */
 public class CsvDataExtractor {
 
     ArrayList<ArrayList<String>> data;

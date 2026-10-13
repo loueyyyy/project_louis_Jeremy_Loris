@@ -8,6 +8,9 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
+/**
+ * Generates LaTeX invoices from CSV data, calculating subtotals, VAT, and final totals.
+ */
 public class InvoiceProcess {
 
     public static void invoiceProcess(String inputFilePath, String outputFilePath) {

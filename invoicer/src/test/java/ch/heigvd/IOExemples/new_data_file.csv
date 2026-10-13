@@ -1,4 +1,5 @@
-Nom;Ville
-Martin;Geneve
-dupont;Lausanne
-Bernard;Yverdon
+Nom;Ville;Prix
+Martin;Geneve;8.90
+dupont;Lausanne;12.50
+Bernard;Yverdon;15.20
+Loris;Yverdon;15.00

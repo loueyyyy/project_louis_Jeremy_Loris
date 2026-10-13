@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
+/**
+ * Modifies CSV files by replacing, adding, deleting, and sorting rows or columns.
+ */
 public class ModifyProcess {
 
     public static void replace(String inputFilePath, String outputFilePath, String replace)
@@ -115,25 +118,15 @@ public class ModifyProcess {
 
             int columnToDeleteStart = 0;
             int columnToDeleteEnd = 0;
-            int charIndex = 0;
-            String dataToWrite;
-
             csvExtractor.extraction(csvReader);
             String[] parts = deleteColumns.split("-");
-            /**while (deleteColumns.charAt(charIndex) != '-')
-                columnToDeleteStart = (columnToDeleteStart * 26) + deleteColumns.charAt(charIndex++) - 'A' + 1;**/
             for (int i = 0; i < parts[0].length(); i++) {
                 columnToDeleteStart = columnToDeleteStart * 26
                     + Character.toUpperCase(parts[0].charAt(i)) - 'A' + 1;
         }
             columnToDeleteStart--;
 
-            /**++charIndex;
-
-            while (charIndex < deleteColumns.length())
-                columnToDeleteEnd = (columnToDeleteEnd * 26) + deleteColumns.charAt(charIndex++) - 'A' + 1;
-
-            --columnToDeleteEnd;**/
+           
 
             String endColumn = parts.length > 1 ? parts[1] : parts[0];
 
@@ -160,26 +153,12 @@ public class ModifyProcess {
                     }
 
                     csvWriter.write(csvExtractor.getData(csvLine, csvColumn));
-                    //dataToWrite = csvExtractor.getData(csvLine, csvColumn);
+                    
                     firstColumn = false;
 
                 }
 
-                    /**if (columnToDeleteEnd != csvExtractor.columnsNumber() - 1) {
-                        if (csvColumn < csvExtractor.columnsNumber() - 1) {
-                            dataToWrite += ";";
-                        }
-                    }
-                    else
-                    {
-                        if (csvColumn < columnToDeleteStart - 1)
-                        {
-                            dataToWrite += ";";
-                        }
-                    }
-
-                    csvWriter.write(dataToWrite);
-                }**/
+                
 
             if (csvLine < csvExtractor.linesNumber() - 1)
                 csvWriter.write(System.lineSeparator());

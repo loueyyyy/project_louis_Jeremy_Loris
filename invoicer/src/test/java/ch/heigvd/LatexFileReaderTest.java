@@ -3,7 +3,6 @@ package ch.heigvd;
 import java.io.StringReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import ch.heigvd.process.LatexFileReader;
@@ -126,7 +125,7 @@ class LatexFileReaderTest {
         assertEquals("cde", latex.getData(1));
     }
 
-    @Disabled("ici ya un bug ou appenddata/getData (jsp encore lequel) utilise le nombre de ligne comme index , ce qui crée une exception")
+    
     @Test
     void appendDataWithoutLineNumberAddsACharacterToTheLastLine() {
         LatexFileReader latex = read("ab");

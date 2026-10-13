@@ -13,6 +13,9 @@ import picocli.CommandLine.Command;
     subcommands = {ModifyCommand.class, InvoiceCommand.class}
 )
 
+/**
+ * Entry point for the Invoicer application, configuring and executing CLI commands.
+ */
 public class Main implements Runnable
 {
 

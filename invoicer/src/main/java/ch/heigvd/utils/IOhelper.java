@@ -5,7 +5,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
+/**
+ * Provides file validation utilities for input/output paths and CSV or LaTeX extensions.
+ */
 public final class IOhelper {
 
     public static int inputFileCheck(String inputFilePath) {

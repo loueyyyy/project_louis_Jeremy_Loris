@@ -9,6 +9,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.ArrayList;
 
+/**
+ * Modifies CSV files by replacing, adding, deleting, and sorting rows or columns.
+ */
 public class ModifyProcess {
 
     public static void replace(String inputFilePath, String outputFilePath, String replace)
@@ -116,25 +119,29 @@ public class ModifyProcess {
 
             int columnToDeleteStart = 0;
             int columnToDeleteEnd = 0;
-            int charIndex = 0;
-            String dataToWrite;
-
             csvExtractor.extraction(csvReader);
+            String[] parts = deleteColumns.split("-");
+            for (int i = 0; i < parts[0].length(); i++) {
+                columnToDeleteStart = columnToDeleteStart * 26
+                    + Character.toUpperCase(parts[0].charAt(i)) - 'A' + 1;
+        }
+            columnToDeleteStart--;
 
-            while (deleteColumns.charAt(charIndex) != '-')
-                columnToDeleteStart = (columnToDeleteStart * 26) + deleteColumns.charAt(charIndex++) - 'A' + 1;
+           
 
-            --columnToDeleteStart;
+            String endColumn = parts.length > 1 ? parts[1] : parts[0];
 
-            ++charIndex;
-
-            while (charIndex < deleteColumns.length())
-                columnToDeleteEnd = (columnToDeleteEnd * 26) + deleteColumns.charAt(charIndex++) - 'A' + 1;
-
-            --columnToDeleteEnd;
+            for (int i = 0; i < endColumn.length(); i++) {
+                columnToDeleteEnd = columnToDeleteEnd * 26
+                        + Character.toUpperCase(endColumn.charAt(i)) - 'A' + 1;
+            }
+            columnToDeleteEnd--;
 
             for (int csvLine = 0; csvLine < csvExtractor.linesNumber(); csvLine++)
+
             {
+                boolean firstColumn = true;
+
                 for (int csvColumn = 0; csvColumn < csvExtractor.columnsNumber(); csvColumn++)
                 {
                     if (csvColumn >= columnToDeleteStart && csvColumn <= columnToDeleteEnd)
@@ -142,29 +149,24 @@ public class ModifyProcess {
                         continue;
                     }
 
-                    dataToWrite = csvExtractor.getData(csvLine, csvColumn);
-
-                    if (columnToDeleteEnd != csvExtractor.columnsNumber() - 1) {
-                        if (csvColumn < csvExtractor.columnsNumber() - 1) {
-                            dataToWrite += ";";
-                        }
-                    }
-                    else
-                    {
-                        if (csvColumn < columnToDeleteStart - 1)
-                        {
-                            dataToWrite += ";";
-                        }
+                    if (!firstColumn) {
+                        csvWriter.write(";");
                     }
 
-                    csvWriter.write(dataToWrite);
+                    csvWriter.write(csvExtractor.getData(csvLine, csvColumn));
+                    
+                    firstColumn = false;
+
                 }
 
-                if (csvLine < csvExtractor.linesNumber() - 1)
-                    csvWriter.write(System.lineSeparator());
+                
+
+            if (csvLine < csvExtractor.linesNumber() - 1)
+                csvWriter.write(System.lineSeparator());
             }
 
         }
+        
         catch (IOException e) {
             System.err.println(e.getMessage());
             System.exit(1);
@@ -198,7 +200,7 @@ public class ModifyProcess {
                 }
             }
             
-            newData = add.split(";");
+            newData = add.split("-");
 
             for (int csvColumn = 0; csvColumn < csvExtractor.columnsNumber(); csvColumn++)
             {

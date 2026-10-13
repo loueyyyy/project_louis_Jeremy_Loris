@@ -127,7 +127,6 @@ class ModifyProcessTest {
         assertEquals(List.of("Nom;Prix","Martin;8.90","dupont;12.50","Bernard;15.20"), result());
     }
 
-    @Disabled("delete la derniere colonne fait tt bug")
     @Test
     void deleteColumnsCanRemoveTheLastColumn() throws IOException {
         ModifyProcess.deleteColumns(input(CSV), output(), "C-C");
@@ -190,9 +189,6 @@ class ModifyProcessTest {
         assertTrue(lines.containsAll(List.of("Martin;Geneve;8.90", "dupont;Lausanne;12.50", "Bernard;Yverdon;15.20")));
     }
 
-    
-
-    @Disabled("Bug , la fonction sort retire le header ???")
     @Test
     void sortKeepsTheHeader() throws IOException {
         ModifyProcess.sort(input(CSV), output(), "nom");

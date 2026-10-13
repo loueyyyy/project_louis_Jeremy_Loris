@@ -73,24 +73,13 @@ public class ModifyProcess {
             CsvDataExtractor csvExtractor = new CsvDataExtractor();
 
 
-            int rowToDeleteStart = 0;
-            int rowToDeleteEnd = 0;
-            int charIndex = 0;
             String dataToWrite;
 
             csvExtractor.extraction(csvReader);
 
-            while (deleteRows.charAt(charIndex) != '-')
-                rowToDeleteStart = (rowToDeleteStart * 10) + deleteRows.charAt(charIndex++) - '0';
-
-            --rowToDeleteStart;
-
-            ++charIndex;
-
-            while (charIndex < deleteRows.length())
-                rowToDeleteEnd = (rowToDeleteEnd * 10) + deleteRows.charAt(charIndex++) - '0';
-
-            --rowToDeleteEnd;
+            String[] parts = deleteRows.split("-");
+            int rowToDeleteStart = Integer.parseInt(parts[0]) - 1;
+            int rowToDeleteEnd = parts.length > 1 ? Integer.parseInt(parts[1]) - 1 : rowToDeleteStart;
 
             for (int csvLine = 0; csvLine < csvExtractor.linesNumber(); csvLine++)
             {
@@ -149,25 +138,29 @@ public class ModifyProcess {
                 {
                     if (csvColumn >= columnToDeleteStart && csvColumn <= columnToDeleteEnd)
                     {
-                        if (csvColumn == csvExtractor.columnsNumber() - 1)
-                        {
-                            System.out.println(csvColumn);
-                            System.out.println(csvExtractor.getData(csvLine, csvColumn));
-                            csvWriter.write(System.lineSeparator());
-                        }
-
                         continue;
                     }
 
                     dataToWrite = csvExtractor.getData(csvLine, csvColumn);
 
-                    if (csvColumn != csvExtractor.columnsNumber() - 1)
-                        dataToWrite += ";";
+                    if (columnToDeleteEnd != csvExtractor.columnsNumber() - 1) {
+                        if (csvColumn < csvExtractor.columnsNumber() - 1) {
+                            dataToWrite += ";";
+                        }
+                    }
                     else
-                        dataToWrite += System.lineSeparator();
+                    {
+                        if (csvColumn < columnToDeleteStart - 1)
+                        {
+                            dataToWrite += ";";
+                        }
+                    }
 
                     csvWriter.write(dataToWrite);
                 }
+
+                if (csvLine < csvExtractor.linesNumber() - 1)
+                    csvWriter.write(System.lineSeparator());
             }
 
         }
@@ -238,6 +231,19 @@ public class ModifyProcess {
             String[] dataToSort = new String[csvExtractor.linesNumber() - 1];
             int[] dataSortingOrder = new int[csvExtractor.linesNumber() - 1];
             //find the column
+
+            for (int csvColumn = 0; csvColumn < csvExtractor.columnsNumber(); csvColumn++)
+            {
+                dataToWrite = csvExtractor.getData(0, csvColumn);
+
+                if (csvColumn != csvExtractor.columnsNumber() - 1)
+                    dataToWrite += ";";
+                else
+                    dataToWrite += System.lineSeparator();
+
+                csvWriter.write(dataToWrite);
+            }
+
             for (int csvColumn = 0; csvColumn < csvExtractor.columnsNumber(); csvColumn++)
             {
                 //if (csvExtractor.getData(0, csvColumn).toLowerCase().equals(sort))

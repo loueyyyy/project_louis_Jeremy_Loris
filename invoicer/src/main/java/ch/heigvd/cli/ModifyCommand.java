@@ -9,7 +9,9 @@ import picocli.CommandLine.Option;
     name = "modify",
     mixinStandardHelpOptions = true,
     version = "Invoicer 1.0",
-    description = "Modify a CSV file and create a new modified CSV file.\nOnly one modification option can be used at a time.\nReplace and add needs new values as csv format.(separated by \";\")",
+    description = "Modify a CSV file and create a new modified CSV file.\n" +
+        "Only one modification option can be used at a time.\n" +
+        "Add needs new values separated by <->)",
     sortOptions = false,
     sortSynopsis = false    
 )
@@ -53,7 +55,7 @@ public class ModifyCommand implements Runnable {
         names = {"-a", "--add"},
         description = "Add new row to the CSV file",
         required = false,
-        paramLabel = "newLine(separated by \";\")")
+        paramLabel = "newLine(separated by \"-\")")
     private String add;
 
     @Option (

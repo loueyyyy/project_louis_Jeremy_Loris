@@ -220,7 +220,7 @@ public class ModifyProcess {
                 }
             }
             
-            newData = add.split(";");
+            newData = add.split("-");
 
             for (int csvColumn = 0; csvColumn < csvExtractor.columnsNumber(); csvColumn++)
             {

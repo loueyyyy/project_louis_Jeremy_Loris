@@ -166,6 +166,8 @@ Les tests JUnit 5 portent sur le traitement. Les tests de `CsvDataExtractor` et 
 Nous avons utilisé des outils d'intelligence artificielle pour nous aider dans certaines tâches du projet, notamment :
 
 - **Rédaction et mise en forme :** correction de l'orthographe et aide à l'utilisation de Markdown pour structurer et formater ce document.
-- **Tests :** génération de donnée aléatoire et proposition d'idée de cas à tester
+- **Tests :** génération de donnée aléatoire et proposition d'idée de cas à tester et génération de certains tests.
+- **Fichiers d’entrée :** génération des fichiers .csv pour les tests et .tex pour le modèle de facture.
+- **Débogage :** correction des erreurs dans le code, notamment pour les cas limites.
 
 Le code, les tests et la documentation ont été vérifiés et sont compris par les membres du groupe.

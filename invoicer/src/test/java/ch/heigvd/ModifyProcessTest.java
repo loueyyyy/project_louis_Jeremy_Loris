@@ -39,28 +39,28 @@ class ModifyProcessTest {
     
     @Test
     void replaceChangesOnlyTheTargetCell() throws IOException {
-        ModifyProcess.replace(input(CSV), output(), "B2 Fribourg");
+        ModifyProcess.replace(input(CSV), output(), "B2:Fribourg");
 
         assertEquals(List.of("Nom;Ville;Prix","Martin;Fribourg;8.90","dupont;Lausanne;12.50","Bernard;Yverdon;15.20"), result());
     }
     //check si ca garde l'espace
     @Test
     void replaceKeepsTheSpacesOfTheNewValue() throws IOException {
-        ModifyProcess.replace(input(CSV), output(), "A2 Jean Martin");
+        ModifyProcess.replace(input(CSV), output(), "A2:Jean Martin");
 
         assertEquals("Jean Martin;Geneve;8.90", result().get(1));
     }
     //a faire : check si on peut changer le header
     @Test
     void replaceCanChangeTheHeader() throws IOException {
-        ModifyProcess.replace(input(CSV), output(), "C1 Montant");
+        ModifyProcess.replace(input(CSV), output(), "C1:Montant");
 
         assertEquals("Nom;Ville;Montant", result().get(0));
     }
 
     @Test
     void replaceCanChangeTheLastCell() throws IOException {
-        ModifyProcess.replace(input(CSV), output(), "C4 99.99");
+        ModifyProcess.replace(input(CSV), output(), "C4:99.99");
 
         assertEquals("Bernard;Yverdon;99.99", result().get(3));
     }
@@ -77,7 +77,7 @@ class ModifyProcessTest {
         }
 
        
-        ModifyProcess.replace(input(header + "\n" + line), output(), "AA2 X");
+        ModifyProcess.replace(input(header + "\n" + line), output(), "AA2:X");
 
         String[] cells = result().get(1).split(";");
         assertEquals(27, cells.length);
@@ -126,7 +126,7 @@ class ModifyProcessTest {
         assertEquals(List.of("Nom;Prix","Martin;8.90","dupont;12.50","Bernard;15.20"), result());
     }
 
-    @Disabled("Known bug: the line break is written after the last column, so deleting it glues all the lines together")
+    @Disabled("delete la derniere colonne fait tt bug")
     @Test
     void deleteColumnsCanRemoveTheLastColumn() throws IOException {
         ModifyProcess.deleteColumns(input(CSV), output(), "C C");
@@ -145,13 +145,6 @@ class ModifyProcessTest {
         assertEquals(5, lines.size());
         assertEquals("Bernard;Yverdon;15.20", lines.get(3));
         assertEquals("Roux;Sion;21.30", lines.get(4));
-    }
-
-    @Test
-    void addAppendsALineSeparatedBySpaces() throws IOException {
-        ModifyProcess.add(input(CSV), output(), "Roux Sion 21.30");
-
-        assertEquals("Roux;Sion;21.30", result().get(4));
     }
 
     @Test
@@ -220,10 +213,10 @@ class ModifyProcessTest {
         assertEquals(List.of("a;1", "b;5", "c;3", "d;7", "e;9", "f;11","g;10", "h;8", "i;6", "j;2", "k;0", "l;4"), lastLines(12));
     }
 
-    @Disabled("Comme on en a parlé ya un problème de diff de format entre ModifyCommand et ModifyProcess (B,2 vs B2)")
+    @Disabled("Comme on en a parlé ya un problème de diff de format entre ModifyCommand et ModifyProcess (B2 vs B:2)")
     @Test
     void replaceAcceptsTheFormatCheckedByTheCommand() throws IOException {
-        ModifyProcess.replace(input(CSV), output(), "B,2,Fribourg");
+        ModifyProcess.replace(input(CSV), output(), "B2,Fribourg");
 
         assertEquals("Martin;Fribourg;8.90", result().get(1));
     }

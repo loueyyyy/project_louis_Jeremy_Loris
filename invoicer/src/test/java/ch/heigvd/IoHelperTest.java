@@ -46,17 +46,17 @@ class IOhelperTest {
     }
 
     @Test
-    void pdfExtensionAcceptsPdfFilesWhateverTheCase() {
-        assertTrue(IOhelper.pdfExtension("invoice.pdf"));
-        assertTrue(IOhelper.pdfExtension("INVOICE.PDF"));
+    void texExtensionAcceptsTexFilesWhateverTheCase() {
+        assertTrue(IOhelper.texExtension("invoice.tex"));
+        assertTrue(IOhelper.texExtension("INVOICE.TEX"));
     }
 
     @Test
-    void pdfExtensionRejectsOtherFiles() {
-        assertFalse(IOhelper.pdfExtension("invoice.tex"));
-        assertFalse(IOhelper.pdfExtension("invoice.pdf.csv"));
-        assertFalse(IOhelper.pdfExtension("pdf"));
-        assertFalse(IOhelper.pdfExtension(null));
+    void texExtensionRejectsOtherFiles() {
+        assertFalse(IOhelper.texExtension("invoice.pdf"));
+        assertFalse(IOhelper.texExtension("invoice.tex.csv"));
+        assertFalse(IOhelper.texExtension("tex"));
+        assertFalse(IOhelper.texExtension(null));
     }
 
     

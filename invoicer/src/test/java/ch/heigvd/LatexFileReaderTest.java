@@ -1,4 +1,4 @@
-package ch.heigvd.process;
+package ch.heigvd;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -6,6 +6,8 @@ import java.io.StringReader;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import ch.heigvd.process.LatexFileReader;
 
 class LatexFileReaderTest {
 

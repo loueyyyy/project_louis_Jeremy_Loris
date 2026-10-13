@@ -1,4 +1,4 @@
-package ch.heigvd.process;
+package ch.heigvd;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -7,6 +7,8 @@ import java.io.StringReader;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import ch.heigvd.process.CsvDataExtractor;
 
 class CsvDataExtractorTest {
 

@@ -1,4 +1,4 @@
-package ch.heigvd.utils;
+package ch.heigvd;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -11,6 +11,8 @@ import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+
+import ch.heigvd.utils.IOhelper;
 
 
 class IOhelperTest {

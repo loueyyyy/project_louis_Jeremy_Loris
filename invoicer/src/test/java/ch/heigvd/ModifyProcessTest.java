@@ -1,4 +1,4 @@
-package ch.heigvd.process;
+package ch.heigvd;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -12,6 +12,8 @@ import java.util.List;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+
+import ch.heigvd.process.ModifyProcess;
 
 
 class ModifyProcessTest {
@@ -200,7 +202,7 @@ class ModifyProcessTest {
         assertEquals(4, result().size());
     }
 
-    @Disabled("J'en ai déja parlé dans un commit ou message mais ya un bug au dessus de 10 lignes qui fait foirer le sort")
+    //@Disabled("J'en ai déja parlé dans un commit ou message mais ya un bug au dessus de 10 lignes qui fait foirer le sort")
     @Test
     void sortHandlesMoreThanNineLines() throws IOException {
         String[] names = {"k", "a", "j", "c", "l", "b", "i", "d", "h", "e", "g", "f"};

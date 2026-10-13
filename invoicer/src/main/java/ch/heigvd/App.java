@@ -14,13 +14,9 @@ public class App
     public static void main( String[] args )
     {
 
-        InvoiceProcess.invoiceProcess(
+        ModifyProcess.deleteColumns(
                 "./src/main/java/ch/heigvd/io/data_file.csv",
-                "./src/main/java/ch/heigvd/io/new_invoice.tex"
-        );
-        ModifyProcess.sort(
-                "./src/main/java/ch/heigvd/io/data_file.csv",
-                "./src/main/java/ch/heigvd/io/new_data_file.csv",
-                "nom");
+                "./src/main/java/ch/heigvd/io/new_invoice.tex",
+                "F-H");
     }
 }

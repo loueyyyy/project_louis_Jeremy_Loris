@@ -26,7 +26,7 @@ public class ModifyProcess {
             csvExtractor.extraction(csvReader);
 
             while (!Character.isDigit(replace.charAt(charIndex)))
-                dataColumnToReplace = (dataColumnToReplace * 26) + replace.charAt(charIndex++) - 'A' + 1;
+                dataColumnToReplace = (dataColumnToReplace * 26) + replace.toUpperCase().charAt(charIndex++) - 'A' + 1;
 
             --dataColumnToReplace;
 
@@ -80,7 +80,7 @@ public class ModifyProcess {
 
             csvExtractor.extraction(csvReader);
 
-            while (deleteRows.charAt(charIndex) != ' ')
+            while (deleteRows.charAt(charIndex) != '-')
                 rowToDeleteStart = (rowToDeleteStart * 10) + deleteRows.charAt(charIndex++) - '0';
 
             --rowToDeleteStart;
@@ -131,12 +131,10 @@ public class ModifyProcess {
 
             csvExtractor.extraction(csvReader);
 
-            while (deleteColumns.charAt(charIndex) != ' ')
+            while (deleteColumns.charAt(charIndex) != '-')
                 columnToDeleteStart = (columnToDeleteStart * 26) + deleteColumns.charAt(charIndex++) - 'A' + 1;
 
             --columnToDeleteStart;
-
-            System.out.println(columnToDeleteStart);
 
             ++charIndex;
 
@@ -145,14 +143,21 @@ public class ModifyProcess {
 
             --columnToDeleteEnd;
 
-            System.out.println(columnToDeleteEnd);
-
             for (int csvLine = 0; csvLine < csvExtractor.linesNumber(); csvLine++)
             {
                 for (int csvColumn = 0; csvColumn < csvExtractor.columnsNumber(); csvColumn++)
                 {
                     if (csvColumn >= columnToDeleteStart && csvColumn <= columnToDeleteEnd)
+                    {
+                        if (csvColumn == csvExtractor.columnsNumber() - 1)
+                        {
+                            System.out.println(csvColumn);
+                            System.out.println(csvExtractor.getData(csvLine, csvColumn));
+                            csvWriter.write(System.lineSeparator());
+                        }
+
                         continue;
+                    }
 
                     dataToWrite = csvExtractor.getData(csvLine, csvColumn);
 
@@ -249,20 +254,6 @@ public class ModifyProcess {
             }
 
             Arrays.sort(dataToSort, String.CASE_INSENSITIVE_ORDER);
-
-
-            /**for (int csvLine = 0; csvLine < csvExtractor.linesNumber() - 1; csvLine++) {
-
-                int dataToSortColumnIndex = dataToSort[csvLine].length() - 1;
-
-                while (dataToSort[csvLine].charAt( dataToSortColumnIndex ) != '!')
-                {
-                    dataSortingOrder[csvLine] += (dataToSort[csvLine].charAt( dataToSortColumnIndex ) - '0') * ((dataToSort[csvLine].length() - dataToSortColumnIndex) * 10);
-                    --dataToSortColumnIndex;
-                }
-                dataSortingOrder[csvLine] /= 10;
-                ++dataSortingOrder[csvLine];
-            }**/
 
             for (int csvLine = 0; csvLine < dataToSort.length; csvLine++) {
                 int separatorIndex = dataToSort[csvLine].lastIndexOf("!");

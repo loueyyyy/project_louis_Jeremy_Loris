@@ -29,39 +29,57 @@ public class CsvDataExtractor {
 
         try {
             int character;
+            int buffer;
             int lineNumber = 0;
             int elementNumber = 0;
 
             data.add(new ArrayList<>());
             data.get(lineNumber).add("");
 
-            while ((character = in.read()) != -1) {
+            if ((character = in.read()) != -1) {
+                buffer = character;
+                while ((character = in.read()) != -1) {
 
-                if ((char) character == '\r')
-                    continue;
+                    if ((char) buffer == '\r') {
+                        buffer = character;
+                        continue;
+                    }
 
-                if ((char) character == '\n') {
-                    lineNumber++;
-                    data.add(new ArrayList<>());
-                    data.get(lineNumber).add("");
-                    elementNumber = 0;
-                    continue;
+                    if ((char) buffer == '\n') {
+                        lineNumber++;
+                        data.add(new ArrayList<>());
+                        data.get(lineNumber).add("");
+                        elementNumber = 0;
+                        buffer = character;
+                        continue;
+                    }
+
+                    if ((char) buffer == ';') {
+                        elementNumber++;
+                        data.get(lineNumber).add("");
+                        buffer = character;
+                        continue;
+                    }
+
+                    appendToData(lineNumber, elementNumber, (char) buffer);
+                    buffer = character;
+                }
+                if ((char) buffer != ';'
+                && (char) buffer != '\r'
+                && (char) buffer != '\n') {
+                    appendToData(lineNumber, elementNumber, (char) buffer);
                 }
 
-                if (character == ';') {
-                    elementNumber++;
-                    data.get(lineNumber).add("");
-                    continue;
+                while (data.get(lineNumber).get(0).isEmpty()) {
+                    data.remove(lineNumber);
+                    --lineNumber;
                 }
-
-                appendToData(lineNumber, elementNumber, (char)character);
             }
         }
         catch (Exception e) {
             System.err.println(e.getMessage());
             System.exit(1);
         }
-
     }
 
     public String getData(int lineNumber, int columnNumber) {
@@ -83,7 +101,7 @@ public class CsvDataExtractor {
 
         if (columnNumber >= data.get(lineNumber).size())
         {
-            appendData(lineNumber, value);
+            data.get(lineNumber).add(value);
             return;
         }
 
@@ -98,7 +116,6 @@ public class CsvDataExtractor {
             return;
         }
 
-        data.add(lineNumber, new ArrayList<>());
         data.get(lineNumber).add(value);
     }
 

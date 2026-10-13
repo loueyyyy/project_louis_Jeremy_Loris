@@ -75,7 +75,7 @@ public class LatexFileReader
 
     public void appendData(char value)
     {
-        appendData(data.size(), value);
+        appendData(data.size() - 1, value);
     }
 
     public int linesNumber()

@@ -64,13 +64,16 @@ public class CsvDataExtractor {
                     appendToData(lineNumber, elementNumber, (char) buffer);
                     buffer = character;
                 }
-                if ((char) buffer != ';'
-                && (char) buffer != '\r'
-                && (char) buffer != '\n') {
-                    appendToData(lineNumber, elementNumber, (char) buffer);
+                if ((char) buffer != ';') {
+                    if ((char) buffer != '\r'
+                    && (char) buffer != '\n') {
+                        appendToData(lineNumber, elementNumber, (char) buffer);
+                    }
                 }
+                else
+                data.get(lineNumber).add("");
 
-                while (data.get(lineNumber).get(0).isEmpty()) {
+                while (data.get(lineNumber).size() != data.get(0).size()) {
                     data.remove(lineNumber);
                     --lineNumber;
                 }

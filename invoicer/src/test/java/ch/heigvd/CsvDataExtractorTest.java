@@ -122,8 +122,6 @@ class CsvDataExtractorTest {
         assertThrows(IndexOutOfBoundsException.class, () -> csv.getData(0, 2));
     }
 
-    
-    @Disabled("ici il y a un bug , si on a un retour a la ligne a la fin , ca crée une ligne vide")
     @Test
     void aFinalLineBreakDoesNotAddALine() {
         assertEquals(2, read("a;b\nc;d\n").linesNumber());

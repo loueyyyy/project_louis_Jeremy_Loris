@@ -8,7 +8,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -135,11 +134,9 @@ class ModifyProcessTest {
         assertEquals("Bernard;Yverdon", result().get(3));
     }
 
-    
-
     @Test
     void addAppendsALineSeparatedBySemicolons() throws IOException {
-        ModifyProcess.add(input(CSV), output(), "Roux;Sion;21.30");
+        ModifyProcess.add(input(CSV), output(), "Roux-Sion-21.30");
 
         List<String> lines = result();
         assertEquals(5, lines.size());
@@ -149,7 +146,7 @@ class ModifyProcessTest {
 
     @Test
     void addKeepsTheExistingLines() throws IOException {
-        ModifyProcess.add(input(CSV), output(), "Roux;Sion;21.30");
+        ModifyProcess.add(input(CSV), output(), "Roux-Sion-21.30");
 
         assertEquals(CSV.lines().toList(), result().subList(0, 4));
     }

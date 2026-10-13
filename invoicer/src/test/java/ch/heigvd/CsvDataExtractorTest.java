@@ -1,12 +1,13 @@
-package ch.heigvd.process;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+package ch.heigvd;
 
 import java.io.StringReader;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import ch.heigvd.process.CsvDataExtractor;
 
 class CsvDataExtractorTest {
 

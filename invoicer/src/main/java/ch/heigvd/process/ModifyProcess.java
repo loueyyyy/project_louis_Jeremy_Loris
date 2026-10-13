@@ -73,24 +73,13 @@ public class ModifyProcess {
             CsvDataExtractor csvExtractor = new CsvDataExtractor();
 
 
-            int rowToDeleteStart = 0;
-            int rowToDeleteEnd = 0;
-            int charIndex = 0;
             String dataToWrite;
 
             csvExtractor.extraction(csvReader);
 
-            while (deleteRows.charAt(charIndex) != '-')
-                rowToDeleteStart = (rowToDeleteStart * 10) + deleteRows.charAt(charIndex++) - '0';
-
-            --rowToDeleteStart;
-
-            ++charIndex;
-
-            while (charIndex < deleteRows.length())
-                rowToDeleteEnd = (rowToDeleteEnd * 10) + deleteRows.charAt(charIndex++) - '0';
-
-            --rowToDeleteEnd;
+            String[] parts = deleteRows.split("-");
+            int rowToDeleteStart = Integer.parseInt(parts[0]) - 1;
+            int rowToDeleteEnd = parts.length > 1 ? Integer.parseInt(parts[1]) - 1 : rowToDeleteStart;
 
             for (int csvLine = 0; csvLine < csvExtractor.linesNumber(); csvLine++)
             {

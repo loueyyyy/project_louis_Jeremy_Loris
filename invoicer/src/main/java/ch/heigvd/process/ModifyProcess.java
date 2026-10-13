@@ -136,8 +136,6 @@ public class ModifyProcess {
 
             --columnToDeleteStart;
 
-            System.out.println(columnToDeleteStart);
-
             ++charIndex;
 
             while (charIndex < deleteColumns.length())
@@ -145,16 +143,16 @@ public class ModifyProcess {
 
             --columnToDeleteEnd;
 
-            System.out.println(columnToDeleteEnd);
-
             for (int csvLine = 0; csvLine < csvExtractor.linesNumber(); csvLine++)
             {
                 for (int csvColumn = 0; csvColumn < csvExtractor.columnsNumber(); csvColumn++)
                 {
                     if (csvColumn >= columnToDeleteStart && csvColumn <= columnToDeleteEnd)
                     {
-                        if (columnToDeleteEnd == csvExtractor.ColumnsNumber() && csvExtractor.getData(csvLine, csvColumn).contains('\n'))
+                        if (csvColumn == csvExtractor.columnsNumber() - 1)
                         {
+                            System.out.println(csvColumn);
+                            System.out.println(csvExtractor.getData(csvLine, csvColumn));
                             csvWriter.write(System.lineSeparator());
                         }
 

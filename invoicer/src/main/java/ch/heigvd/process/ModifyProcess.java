@@ -255,20 +255,6 @@ public class ModifyProcess {
 
             Arrays.sort(dataToSort, String.CASE_INSENSITIVE_ORDER);
 
-
-            /**for (int csvLine = 0; csvLine < csvExtractor.linesNumber() - 1; csvLine++) {
-
-                int dataToSortColumnIndex = dataToSort[csvLine].length() - 1;
-
-                while (dataToSort[csvLine].charAt( dataToSortColumnIndex ) != '!')
-                {
-                    dataSortingOrder[csvLine] += (dataToSort[csvLine].charAt( dataToSortColumnIndex ) - '0') * ((dataToSort[csvLine].length() - dataToSortColumnIndex) * 10);
-                    --dataToSortColumnIndex;
-                }
-                dataSortingOrder[csvLine] /= 10;
-                ++dataSortingOrder[csvLine];
-            }**/
-
             for (int csvLine = 0; csvLine < dataToSort.length; csvLine++) {
                 int separatorIndex = dataToSort[csvLine].lastIndexOf("!");
                 dataSortingOrder[csvLine] = Integer.parseInt(dataToSort[csvLine].substring(separatorIndex + 1));

@@ -1,4 +1,14 @@
-Nom;Ville;Prix
-CheeseBurger;Yverdon;15.20
-Sprite;Lausanne;3.50
-McFlurry;Genève;8.90
+Article;Categorie;Conditionnement;Quantite;Prix
+Coca-Cola Original;Soda;Canette 33 cl;24;28.80
+Coca-Cola Zero;Soda;Canette 33 cl;24;28.80
+Fanta Orange;Soda;Canette 33 cl;24;27.60
+Sprite;Soda;Canette 33 cl;24;27.60
+Eau minerale plate;Eau;Bouteille 50 cl;24;18.00
+Eau minerale gazeuse;Eau;Bouteille 50 cl;24;19.20
+Jus d'orange;Jus;Bouteille 1 L;6;21.00
+Jus de pomme;Jus;Bouteille 1 L;6;19.80
+The froid peche;The froid;Bouteille 50 cl;12;22.80
+The froid citron;The froid;Bouteille 50 cl;12;22.80
+Limonade artisanale;Limonade;Bouteille 33 cl;12;30.00
+Tonic Water;Tonic;Bouteille 20 cl;24;26.40
+Ginger Beer;Soda;Bouteille 20 cl;24;31.20

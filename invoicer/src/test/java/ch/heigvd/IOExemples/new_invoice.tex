@@ -1,9 +1,293 @@
-Nom;Prenom;Age;Ville;Email;
-Dupont;Jean;25;Lausanne;jean.dupont@email.ch;
-Martin;Julie;30;Geneve;julie.martin@email.ch;
-Bernard;Lucas;22;Yverdon;lucas.bernard@email.ch;
-Morel;Emma;28;Montreux;emma.morel@email.ch;
-Robert;Hugo;35;Vevey;hugo.robert@email.ch;
-Petit;Chloe;26;Fribourg;chloe.petit@email.ch;
-Roux;Nathan;31;Neuchatel;nathan.roux@email.ch;
-Garcia;Lea;24;Sion;lea.garcia@email.ch;
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage[margin=2cm]{geometry}
+
+\usepackage[table]{xcolor}
+\usepackage{tabularx}
+\usepackage{array}
+
+\setlength{\parindent}{0pt}
+
+% =========================================================
+% COULEURS
+% =========================================================
+
+\definecolor{green}{HTML}{2E7D6E}
+\definecolor{lightgray}{HTML}{F4F4F4}
+\definecolor{darkgray}{HTML}{444444}
+
+
+% =========================================================
+% TABLEAU AUTOMATIQUE
+%
+% Le nombre de colonnes est calculé automatiquement
+% à partir des headers.
+% =========================================================
+
+\ExplSyntaxOn
+
+\seq_new:N \l_invoice_header_seq
+\int_new:N \l_invoice_column_count_int
+
+% Affichage automatique des headers avec leur style
+\cs_new_protected:Npn \invoice_print_headers:
+{
+    \seq_map_indexed_inline:Nn \l_invoice_header_seq
+    {
+        \textbf{\color{white} ##2}
+
+        \int_compare:nNnF
+            {##1}
+            =
+            {\l_invoice_column_count_int}
+            { & }
+    }
+}
+
+% #1 = headers
+% #2 = articles
+\NewDocumentCommand{\InvoiceTable}{+m +m}
+{
+    % Découpe les headers à chaque &
+    \seq_set_split:Nnn
+        \l_invoice_header_seq
+        { & }
+        { #1 }
+
+    % Compte automatiquement le nombre de colonnes
+    \int_set:Nn
+        \l_invoice_column_count_int
+        { \seq_count:N \l_invoice_header_seq }
+
+    \renewcommand{\arraystretch}{1.5}
+
+    % Couleurs alternées des articles
+    \rowcolors{2}{white}{lightgray}
+
+    % Création automatique du bon nombre de colonnes X
+    \begin{tabularx}
+        {\textwidth}
+        {*{\int_use:N \l_invoice_column_count_int}
+        {>{\raggedright\arraybackslash}X}}
+
+        % Première ligne = headers
+        \rowcolor{green}
+        \invoice_print_headers:
+        \\
+
+        % Articles
+        #2
+
+    \end{tabularx}
+
+    \rowcolors{1}{}{}
+}
+
+\ExplSyntaxOff
+
+
+% =========================================================
+% DOCUMENT
+% =========================================================
+
+\begin{document}
+
+
+% =========================================================
+% EN-TÊTE
+% =========================================================
+
+\begin{minipage}[t]{0.55\textwidth}
+
+    {\Huge\bfseries\color{green} Fresh Drinks}
+
+    \vspace{0.3cm}
+
+    Rue des Boissons 12\\
+    1000 Lausanne\\
+    Suisse\\
+    +41 21 000 00 00\\
+    contact@freshdrinks.ch
+
+\end{minipage}%
+\begin{minipage}[t]{0.45\textwidth}
+
+    \raggedleft
+
+    {\Huge\bfseries FACTURE}
+
+    \vspace{0.4cm}
+
+    \textbf{Facture :} 2026-001\\
+    \textbf{Date :} 10.10.2026
+
+\end{minipage}
+
+
+\vspace{1cm}
+
+
+% =========================================================
+% CLIENT
+% =========================================================
+
+{\large\bfseries Client}
+
+\vspace{0.2cm}
+
+Jean Dupont\\
+Route du Lac 25\\
+1007 Lausanne
+
+\vspace{1cm}
+
+
+% =========================================================
+% ARTICLES
+% =========================================================
+
+{\large\bfseries Articles}
+
+\vspace{0.3cm}
+
+
+% =========================================================
+% DONNÉES DU TABLEAU
+%
+% C'EST ICI QUE TU MODIFIES TOUT.
+% =========================================================
+
+\InvoiceTable
+{
+    % --- HEADERS ---
+Article &
+Categorie &
+Conditionnement &
+Quantite &
+Prix
+}
+{
+    % --- INSTANCES ---
+Coca-Cola Original &
+Soda &
+Canette 33 cl &
+24 &
+28.80 CHF\\
+Coca-Cola Zero &
+Soda &
+Canette 33 cl &
+24 &
+28.80 CHF\\
+Fanta Orange &
+Soda &
+Canette 33 cl &
+24 &
+27.60 CHF\\
+Sprite &
+Soda &
+Canette 33 cl &
+24 &
+27.60 CHF\\
+Eau minerale plate &
+Eau &
+Bouteille 50 cl &
+24 &
+18.00 CHF\\
+Eau minerale gazeuse &
+Eau &
+Bouteille 50 cl &
+24 &
+19.20 CHF\\
+Jus d'orange &
+Jus &
+Bouteille 1 L &
+6 &
+21.00 CHF\\
+Jus de pomme &
+Jus &
+Bouteille 1 L &
+6 &
+19.80 CHF\\
+The froid peche &
+The froid &
+Bouteille 50 cl &
+12 &
+22.80 CHF\\
+The froid citron &
+The froid &
+Bouteille 50 cl &
+12 &
+22.80 CHF\\
+Limonade artisanale &
+Limonade &
+Bouteille 33 cl &
+12 &
+30.00 CHF\\
+Tonic Water &
+Tonic &
+Bouteille 20 cl &
+24 &
+26.40 CHF\\
+Ginger Beer &
+Soda &
+Bouteille 20 cl &
+24 &
+31.20 CHF\\
+}
+
+
+% =========================================================
+% TOTAL
+% =========================================================
+
+\vspace{1cm}
+
+\begin{flushright}
+
+\begin{tabular}{rl}
+
+Sous-total :
+&
+% --- SUBTOTAL ---
+324.00 CHF
+\\[2mm]
+
+TVA :
+&
+% --- VAT ---
+26.24 CHF
+\\[2mm]
+
+\cline{2-2}
+
+\textbf{\large Total :}
+&
+\textbf{\large
+% --- TOTAL ---
+350.24 CHF
+}
+
+\end{tabular}
+
+\end{flushright}
+
+
+\vfill
+
+
+% =========================================================
+% BAS DE PAGE
+% =========================================================
+
+\begin{center}
+
+    \color{darkgray}
+    Merci pour votre achat !
+
+\end{center}
+
+
+\end{document}

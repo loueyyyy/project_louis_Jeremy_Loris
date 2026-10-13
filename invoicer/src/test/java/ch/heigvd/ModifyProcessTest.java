@@ -127,7 +127,6 @@ class ModifyProcessTest {
         assertEquals(List.of("Nom;Prix","Martin;8.90","dupont;12.50","Bernard;15.20"), result());
     }
 
-    @Disabled("delete la derniere colonne fait tt bug")
     @Test
     void deleteColumnsCanRemoveTheLastColumn() throws IOException {
         ModifyProcess.deleteColumns(input(CSV), output(), "C-C");

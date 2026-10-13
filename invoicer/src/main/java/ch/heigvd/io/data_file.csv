@@ -1,9 +1,4 @@
-Nom;Prenom;Age;Ville;Email;Telephone;Categorie;Prix
-Dupont;Jean;25;Lausanne;jean.dupont@email.ch;+41791234567;Soda;12.50
-Martin;Julie;30;Geneve;julie.martin@email.ch;+41782345678;Eau;8.90
-Bernard;Lucas;22;Yverdon;lucas.bernard@email.ch;+41763456789;Jus;15.20
-Morel;Emma;28;Montreux;emma.morel@email.ch;+41774567890;The;10.00
-Robert;Hugo;35;Vevey;hugo.robert@email.ch;+41795678901;Soda;18.75
-Petit;Chloe;26;Fribourg;chloe.petit@email.ch;+41786789012;Eau;6.40
-Roux;Nathan;31;Neuchatel;nathan.roux@email.ch;+41767890123;Jus;21.30
-Garcia;Lea;24;Sion;lea.garcia@email.ch;+41778901234;The;13.60
+Nom;Ville;Prix
+Martin;Geneve;8.90
+dupont;Lausanne;12.50
+Bernard;Yverdon;15.20

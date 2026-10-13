@@ -138,27 +138,29 @@ public class ModifyProcess {
                 {
                     if (csvColumn >= columnToDeleteStart && csvColumn <= columnToDeleteEnd)
                     {
-                        if (csvColumn == csvExtractor.columnsNumber() - 1 - (columnToDeleteEnd - columnToDeleteStart + 1))
-                        {
-                            System.out.println(csvColumn);
-                            csvWriter.write(System.lineSeparator());
-                        }
-
                         continue;
                     }
 
                     dataToWrite = csvExtractor.getData(csvLine, csvColumn);
 
-                    System.out.println(csvExtractor.columnsNumber());
-                    System.out.println(columnToDeleteEnd - columnToDeleteStart);
-
-                    if (csvColumn != csvExtractor.columnsNumber() - 1 - (columnToDeleteEnd - columnToDeleteStart + 1))
-                        dataToWrite += ";";
+                    if (columnToDeleteEnd != csvExtractor.columnsNumber() - 1) {
+                        if (csvColumn < csvExtractor.columnsNumber() - 1) {
+                            dataToWrite += ";";
+                        }
+                    }
                     else
-                        dataToWrite += System.lineSeparator();
+                    {
+                        if (csvColumn < columnToDeleteStart - 1)
+                        {
+                            dataToWrite += ";";
+                        }
+                    }
 
                     csvWriter.write(dataToWrite);
                 }
+
+                if (csvLine < csvExtractor.linesNumber() - 1)
+                    csvWriter.write(System.lineSeparator());
             }
 
         }

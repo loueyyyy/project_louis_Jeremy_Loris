@@ -17,6 +17,6 @@ public class App
         ModifyProcess.deleteColumns(
                 "./src/main/java/ch/heigvd/io/data_file.csv",
                 "./src/main/java/ch/heigvd/io/new_data_file.csv",
-                "G-H");
+                "C-C");
     }
 }

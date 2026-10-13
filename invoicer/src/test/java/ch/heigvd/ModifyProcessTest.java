@@ -201,7 +201,7 @@ class ModifyProcessTest {
         assertEquals(4, result().size());
     }
 
-    //@Disabled("J'en ai déja parlé dans un commit ou message mais ya un bug au dessus de 10 lignes qui fait foirer le sort")
+    
     @Test
     void sortHandlesMoreThanNineLines() throws IOException {
         String[] names = {"k", "a", "j", "c", "l", "b", "i", "d", "h", "e", "g", "f"};
@@ -214,7 +214,7 @@ class ModifyProcessTest {
         assertEquals(List.of("a;1", "b;5", "c;3", "d;7", "e;9", "f;11","g;10", "h;8", "i;6", "j;2", "k;0", "l;4"), lastLines(12));
     }
 
-    //@Disabled("Comme on en a parlé ya un problème de diff de format entre ModifyCommand et ModifyProcess (B2 vs B:2)")
+    
     @Test
     void replaceAcceptsTheFormatCheckedByTheCommand() throws IOException {
         ModifyProcess.replace(input(CSV), output(), "B2:Fribourg");
@@ -222,7 +222,7 @@ class ModifyProcessTest {
         assertEquals("Martin;Fribourg;8.90", result().get(1));
     }
 
-    //@Disabled("Meme bug que au dessus mais avec 2-3 vs 2 3")
+    
     @Test
     void deleteRowsAcceptsTheFormatCheckedByTheCommand() throws IOException {
         ModifyProcess.deleteRows(input(CSV), output(), "2-3");
@@ -230,7 +230,7 @@ class ModifyProcessTest {
         assertEquals(List.of("Nom;Ville;Prix", "Bernard;Yverdon;15.20"), result());
     }
 
-    //@Disabled("pareil que au dessus")
+    
     @Test
     void deleteColumnsAcceptsTheFormatCheckedByTheCommand() throws IOException {
         ModifyProcess.deleteColumns(input(CSV), output(), "A-B");
@@ -238,10 +238,10 @@ class ModifyProcessTest {
         assertEquals(List.of("Prix", "8.90", "12.50", "15.20"), result());
     }
 
-    @Disabled("On en a également parlé mais ya un bug lorsque le csv termine par un newline qui fait plant les test")
+    
     @Test
     void replaceWorksOnAFileEndingWithALineBreak() throws IOException {
-        ModifyProcess.replace(input(CSV + "\r\n"), output(), "B2 Fribourg");
+        ModifyProcess.replace(input(CSV + "\r\n"), output(), "B2:Fribourg");
 
         assertEquals("Martin;Fribourg;8.90", result().get(1));
     }

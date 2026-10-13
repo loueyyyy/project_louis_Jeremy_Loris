@@ -154,7 +154,7 @@ class InvoiceProcessTest {
     }
 
     
-    @Disabled("ici ya un bug: 0.1 + 0.2 donne 0.30000000000000004 CHF pcq erreur d'arrondi")
+    //@Disabled("ici ya un bug: 0.1 + 0.2 donne 0.30000000000000004 CHF pcq erreur d'arrondi")
     @Test
     void theSubtotalIsRoundedToTwoDecimals() throws IOException {
         List<String> lines = invoice("Nom;Prix\na;0.1\nb;0.2");

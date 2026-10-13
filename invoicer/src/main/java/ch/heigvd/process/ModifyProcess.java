@@ -161,7 +161,10 @@ public class ModifyProcess {
 
                     dataToWrite = csvExtractor.getData(csvLine, csvColumn);
 
-                    if (csvColumn != csvExtractor.columnsNumber() - 1)
+                    System.out.println(csvExtractor.columnsNumber());
+                    System.out.println(columnToDeleteEnd - columnToDeleteStart);
+
+                    if (csvColumn <= csvExtractor.columnsNumber() - 1)
                         dataToWrite += ";";
                     else
                         dataToWrite += System.lineSeparator();
@@ -238,6 +241,19 @@ public class ModifyProcess {
             String[] dataToSort = new String[csvExtractor.linesNumber() - 1];
             int[] dataSortingOrder = new int[csvExtractor.linesNumber() - 1];
             //find the column
+
+            for (int csvColumn = 0; csvColumn < csvExtractor.columnsNumber(); csvColumn++)
+            {
+                dataToWrite = csvExtractor.getData(0, csvColumn);
+
+                if (csvColumn != csvExtractor.columnsNumber() - 1)
+                    dataToWrite += ";";
+                else
+                    dataToWrite += System.lineSeparator();
+
+                csvWriter.write(dataToWrite);
+            }
+
             for (int csvColumn = 0; csvColumn < csvExtractor.columnsNumber(); csvColumn++)
             {
                 //if (csvExtractor.getData(0, csvColumn).toLowerCase().equals(sort))

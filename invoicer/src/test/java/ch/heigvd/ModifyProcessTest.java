@@ -190,9 +190,6 @@ class ModifyProcessTest {
         assertTrue(lines.containsAll(List.of("Martin;Geneve;8.90", "dupont;Lausanne;12.50", "Bernard;Yverdon;15.20")));
     }
 
-    
-
-    @Disabled("Bug , la fonction sort retire le header ???")
     @Test
     void sortKeepsTheHeader() throws IOException {
         ModifyProcess.sort(input(CSV), output(), "nom");

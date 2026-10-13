@@ -7,7 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * Modifies CSV files by replacing, adding, deleting, and sorting rows or columns.
@@ -232,7 +232,7 @@ public class ModifyProcess {
             String dataToWrite;
             int columnSortingReference = 0;
             String[] dataToSort = new String[csvExtractor.linesNumber() - 1];
-            ArrayList<Double> dataToSortDouble = new ArrayList<>(csvExtractor.linesNumber() - 1);
+            
             int[] dataSortingOrder = new int[csvExtractor.linesNumber() - 1];
 
             for (int csvColumn = 0; csvColumn < csvExtractor.columnsNumber(); csvColumn++)
@@ -256,18 +256,22 @@ public class ModifyProcess {
                 }
             }
 
-            if (isNumber(csvExtractor.getData(1, columnSortingReference))) {
+            if (csvExtractor.linesNumber() > 1 && isNumber(csvExtractor.getData(1, columnSortingReference))) {
 
-                for (int csvLine = 0; csvLine < csvExtractor.linesNumber() - 1; csvLine++) {
-                    dataToSortDouble.add(Double.parseDouble((csvExtractor.getData(csvLine + 1, columnSortingReference)).trim()));
-                }
+                Integer[] order = new Integer[dataSortingOrder.length];
 
-                dataToSortDouble.sort(null);
+                for (int csvLine = 0; csvLine < order.length; csvLine++)
+                    order[csvLine] = csvLine;
 
-                for (int csvLine = 0; csvLine < csvExtractor.linesNumber() - 1; csvLine++) {
+                final int sortingColumn = columnSortingReference;
 
-                    dataSortingOrder[csvLine] = dataToSortDouble.indexOf(Double.parseDouble((csvExtractor.getData(csvLine + 1, columnSortingReference)).trim()));
-                }
+                // Arrays.sort is stable: lines with equal values keep their original order.
+                // "csvLine + 1" skips the header, which is line 0 of the CSV.
+                Arrays.sort(order, Comparator.comparingDouble(
+                    csvLine -> Double.parseDouble(csvExtractor.getData(csvLine + 1, sortingColumn).trim())));
+
+                for (int csvLine = 0; csvLine < order.length; csvLine++)
+                    dataSortingOrder[csvLine] = order[csvLine];
 
             }
             else {

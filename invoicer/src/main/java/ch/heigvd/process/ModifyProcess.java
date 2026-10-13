@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 /**
  * Modifies CSV files by replacing, adding, deleting, and sorting rows or columns.
@@ -231,8 +232,8 @@ public class ModifyProcess {
             String dataToWrite;
             int columnSortingReference = 0;
             String[] dataToSort = new String[csvExtractor.linesNumber() - 1];
+            ArrayList<Double> dataToSortDouble = new ArrayList<>(csvExtractor.linesNumber() - 1);
             int[] dataSortingOrder = new int[csvExtractor.linesNumber() - 1];
-            //find the column
 
             for (int csvColumn = 0; csvColumn < csvExtractor.columnsNumber(); csvColumn++)
             {
@@ -248,7 +249,6 @@ public class ModifyProcess {
 
             for (int csvColumn = 0; csvColumn < csvExtractor.columnsNumber(); csvColumn++)
             {
-                //if (csvExtractor.getData(0, csvColumn).toLowerCase().equals(sort))
                 if (csvExtractor.getData(0, csvColumn).equalsIgnoreCase(sort))
                 {
                     columnSortingReference = csvColumn;
@@ -256,17 +256,35 @@ public class ModifyProcess {
                 }
             }
 
-            for (int csvLine = 0; csvLine < csvExtractor.linesNumber() - 1; csvLine++) {
-                dataToSort[csvLine] = csvExtractor.getData(csvLine + 1, columnSortingReference);
-                dataToSort[csvLine] += "!" + csvLine;
+            if (isNumber(csvExtractor.getData(1, columnSortingReference))) {
+
+                for (int csvLine = 0; csvLine < csvExtractor.linesNumber() - 1; csvLine++) {
+                    dataToSortDouble.add(Double.parseDouble((csvExtractor.getData(csvLine + 1, columnSortingReference)).trim()));
+                }
+
+                dataToSortDouble.sort(null);
+
+                for (int csvLine = 0; csvLine < csvExtractor.linesNumber() - 1; csvLine++) {
+
+                    dataSortingOrder[csvLine] = dataToSortDouble.indexOf(Double.parseDouble((csvExtractor.getData(csvLine + 1, columnSortingReference)).trim()));
+                }
+
+            }
+            else {
+
+                for (int csvLine = 0; csvLine < csvExtractor.linesNumber() - 1; csvLine++) {
+                    dataToSort[csvLine] = csvExtractor.getData(csvLine + 1, columnSortingReference);
+                    dataToSort[csvLine] += "!" + csvLine;
+                }
+
+                Arrays.sort(dataToSort, String.CASE_INSENSITIVE_ORDER);
+
+                for (int csvLine = 0; csvLine < dataToSort.length; csvLine++) {
+                    int separatorIndex = dataToSort[csvLine].lastIndexOf("!");
+                    dataSortingOrder[csvLine] = Integer.parseInt(dataToSort[csvLine].substring(separatorIndex + 1));
+                }
             }
 
-            Arrays.sort(dataToSort, String.CASE_INSENSITIVE_ORDER);
-
-            for (int csvLine = 0; csvLine < dataToSort.length; csvLine++) {
-                int separatorIndex = dataToSort[csvLine].lastIndexOf("!");
-                dataSortingOrder[csvLine] = Integer.parseInt(dataToSort[csvLine].substring(separatorIndex + 1));
-            }
 
             for (int sortedIndex :  dataSortingOrder)
             {
@@ -287,6 +305,16 @@ public class ModifyProcess {
         catch (IOException e) {
             System.err.println(e.getMessage());
             System.exit(1);
+        }
+    }
+
+    public static boolean isNumber(String text) {
+        try {
+            Double.parseDouble(text.trim());
+            return true;
+        }
+        catch (NumberFormatException e) {
+            return false;
         }
     }
 }
